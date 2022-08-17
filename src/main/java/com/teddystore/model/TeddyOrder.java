@@ -20,7 +20,7 @@ public class TeddyOrder {
     @Column(name = "ID")
     Long id;
     Date placedAt;
-    User user;
+    Costumer costumer;
     String deliveryStreet;
     String deliveryCity;
     String deliveryState;
