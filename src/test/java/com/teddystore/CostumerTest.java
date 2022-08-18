@@ -55,7 +55,7 @@ public class CostumerTest {
 
         log.info("\n---------- REGISTERING USER ----------");
         MockHttpServletResponse response = mockMvc.perform(post("/users/")
-                .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_user:write")))
+                .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
