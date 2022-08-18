@@ -1,17 +1,18 @@
 package com.teddystore.model;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Builder
+@Entity
 public class Teddy {
 
     @Id
@@ -22,5 +23,5 @@ public class Teddy {
     String details;
     Double size;
     BigDecimal price;
-    BufferedImage image;
+    //BufferedImage image;
 }
