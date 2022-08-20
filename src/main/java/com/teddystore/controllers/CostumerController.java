@@ -18,6 +18,11 @@ public class CostumerController {
         this.costumerService = costumerService;
     }
 
+    @PostMapping
+    public Costumer registerUser(@RequestBody Costumer costumer) {
+        return costumerService.registerCostumer(costumer);
+    }
+
     @GetMapping
     public Iterable<Costumer> getAllUsers() {
         return costumerService.getCostumers();
@@ -33,14 +38,9 @@ public class CostumerController {
         return costumerService.getByUsername(username);
     }
 
-    @PostMapping
-    public Costumer registerUser(@RequestBody Costumer costumer) {
-        return costumerService.registerCostumer(costumer);
-    }
-
     @PutMapping("{id}")
-    public void updateUserDetails(@RequestBody Costumer costumer, @PathVariable Long id) {
-        costumerService.updateCostumerDetails(id, costumer);
+    public Costumer updateUserDetails(@RequestBody Costumer costumer, @PathVariable Long id) {
+        return costumerService.updateCostumerDetails(id, costumer);
     }
 
     @DeleteMapping("{id}")

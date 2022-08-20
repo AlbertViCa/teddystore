@@ -14,6 +14,8 @@ public interface TeddyService {
 
     Optional<Iterable<Teddy>> getAllTeddies();
 
+    Teddy updateTeddyDetails(Long id, Teddy teddy);
+
     void deleteTeddyById(Long id);
 
     void deleteAll();

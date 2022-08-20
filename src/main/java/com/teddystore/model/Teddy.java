@@ -3,7 +3,6 @@ package com.teddystore.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 
 @Getter
@@ -23,5 +22,5 @@ public class Teddy {
     String details;
     Double size;
     BigDecimal price;
-    //BufferedImage image;
+    String imageURL;
 }

@@ -17,8 +17,8 @@ public class TeddyController {
     }
 
     @PostMapping
-    public void saveTeddy(@RequestBody Teddy teddy) {
-        teddyService.saveTeddy(teddy);
+    public Teddy saveTeddy(@RequestBody Teddy teddy) {
+        return teddyService.saveTeddy(teddy);
     }
 
     @GetMapping("{id}")
@@ -34,6 +34,11 @@ public class TeddyController {
     @GetMapping
     public Optional<Iterable<Teddy>> getAllTeddies() {
        return teddyService.getAllTeddies();
+    }
+
+    @GetMapping("{id}")
+    public Teddy updateTeddyDetails(@PathVariable Long id, @RequestBody Teddy teddy) {
+        return teddyService.updateTeddyDetails(id, teddy);
     }
 
     @DeleteMapping
