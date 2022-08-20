@@ -12,7 +12,7 @@ public interface TeddyService {
 
     Optional<Teddy> getByName(String name);
 
-    Optional<Iterable<Teddy>> getAllTeddys();
+    Optional<Iterable<Teddy>> getAllTeddies();
 
     void deleteTeddyById(Long id);
 

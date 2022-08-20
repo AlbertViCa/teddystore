@@ -32,8 +32,8 @@ public class TeddyController {
     }
 
     @GetMapping
-    public Optional<Iterable<Teddy>> getAllTeddys() {
-       return teddyService.getAllTeddys();
+    public Optional<Iterable<Teddy>> getAllTeddies() {
+       return teddyService.getAllTeddies();
     }
 
     @DeleteMapping
@@ -42,7 +42,7 @@ public class TeddyController {
     }
 
     @DeleteMapping
-    public void deleteAllTeddys() {
+    public void deleteAllTeddies() {
         teddyService.deleteAll();
     }
 }

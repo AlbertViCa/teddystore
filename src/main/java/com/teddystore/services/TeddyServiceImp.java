@@ -1,5 +1,6 @@
 package com.teddystore.services;
 
+import com.teddystore.exception.TeddyNotFoundException;
 import com.teddystore.model.Teddy;
 import com.teddystore.repositories.TeddyRepository;
 import org.springframework.stereotype.Service;
@@ -20,29 +21,30 @@ public class TeddyServiceImp implements TeddyService{
         return teddyRepository.save(teddy);
     }
 
-    //TODO: Make method throw 404 exception.
     @Override
     public Optional<Teddy> getById(Long id) {
-        return teddyRepository.findById(id);
+        return Optional.ofNullable(teddyRepository.findById(id)
+                .orElseThrow(() -> new TeddyNotFoundException(String.format("No teddy with id %s found", id))));
     }
 
-    //TODO: Make method throw 404 exception.
     @Override
     public Optional<Teddy> getByName(String name) {
-        return teddyRepository.findByName(name);
+        return Optional.ofNullable(teddyRepository.findByName(name)
+                .orElseThrow(() -> new TeddyNotFoundException(String.format("No teddy with name %s found", name))));
     }
 
-    //TODO: Make method throw 404 exception.
     @Override
-    public Optional<Iterable<Teddy>> getAllTeddys() {
-        return Optional.of(teddyRepository.findAll());
+    public Optional<Iterable<Teddy>> getAllTeddies() {
+        return Optional.ofNullable(Optional.of(teddyRepository.findAll())
+                .orElseThrow(() -> new TeddyNotFoundException("No teddies found")));
     }
 
-    //TODO: Make method throw 404 exception.
     @Override
     public void deleteTeddyById(Long id) {
         if(teddyRepository.existsById(id)) {
             teddyRepository.deleteById(id);
+        } else {
+            throw new TeddyNotFoundException(String.format("No teddy with id %s found", id));
         }
     }
 
