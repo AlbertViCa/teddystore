@@ -26,12 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = {CostumerController.class, CostumerService.class})
+@SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 public class CostumerTest {
 
-    @MockBean
+    @Autowired
     private CostumerService costumerService;
 
     @Autowired

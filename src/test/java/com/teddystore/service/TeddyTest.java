@@ -27,12 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = TeddyService.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 public class TeddyTest {
 
-    @MockBean
+    @Autowired
     private TeddyService teddyService;
 
     @Autowired
