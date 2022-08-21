@@ -1,14 +1,15 @@
-package com.teddystore.controllers;
+package com.teddystore.controller;
 
 import com.teddystore.model.Costumer;
-import com.teddystore.services.CostumerService;
+import com.teddystore.service.CostumerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping(value = "/costumers/")
 public class CostumerController {
 
     private final CostumerService costumerService;
@@ -18,7 +19,7 @@ public class CostumerController {
         this.costumerService = costumerService;
     }
 
-    @PostMapping
+    @PostMapping(value = "register/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Costumer registerUser(@RequestBody Costumer costumer) {
         return costumerService.registerCostumer(costumer);
     }

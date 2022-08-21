@@ -1,14 +1,14 @@
-package com.teddystore.services;
+package com.teddystore.service;
 
 import com.teddystore.exception.TeddyNotFoundException;
 import com.teddystore.model.Teddy;
-import com.teddystore.repositories.TeddyRepository;
+import com.teddystore.repository.TeddyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class TeddyServiceImp implements TeddyService{
+public class TeddyServiceImp implements TeddyService {
 
     private final TeddyRepository teddyRepository;
 

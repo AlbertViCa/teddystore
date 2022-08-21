@@ -1,8 +1,8 @@
-package com.teddystore.services;
+package com.teddystore.service;
 
 import com.teddystore.exception.CostumerNotFoundException;
 import com.teddystore.model.Costumer;
-import com.teddystore.repositories.CostumerRepository;
+import com.teddystore.repository.CostumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

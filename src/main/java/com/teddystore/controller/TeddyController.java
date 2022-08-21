@@ -1,17 +1,19 @@
-package com.teddystore.controllers;
+package com.teddystore.controller;
 
 import com.teddystore.model.Teddy;
-import com.teddystore.services.TeddyService;
+import com.teddystore.service.TeddyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/teddys/")
+@RequestMapping("/teddies/")
 public class TeddyController {
 
     private final TeddyService teddyService;
 
+    @Autowired
     public TeddyController(TeddyService teddyService) {
         this.teddyService = teddyService;
     }
@@ -36,13 +38,13 @@ public class TeddyController {
        return teddyService.getAllTeddies();
     }
 
-    @GetMapping("{id}")
+    @PutMapping("{id}")
     public Teddy updateTeddyDetails(@PathVariable Long id, @RequestBody Teddy teddy) {
         return teddyService.updateTeddyDetails(id, teddy);
     }
 
-    @DeleteMapping
-    public void deleteTeddyById(Long id) {
+    @DeleteMapping("{id}")
+    public void deleteTeddyById(@PathVariable Long id) {
         teddyService.deleteTeddyById(id);
     }
 

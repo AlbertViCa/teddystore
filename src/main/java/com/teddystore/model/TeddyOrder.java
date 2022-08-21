@@ -29,5 +29,5 @@ public class TeddyOrder {
     String creditCardExpirationDate;
     String creditCardCVV;
     BigDecimal totalCost;
-    List<Teddy> teddys;
+    List<Teddy> teddies;
 }

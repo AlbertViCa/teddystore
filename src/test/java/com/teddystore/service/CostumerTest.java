@@ -1,15 +1,17 @@
-package com.teddystore;
+package com.teddystore.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+import com.teddystore.controller.CostumerController;
 import com.teddystore.model.Costumer;
-import com.teddystore.services.CostumerService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,25 +26,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Slf4j
-@SpringBootTest
+@SpringBootTest(classes = {CostumerController.class, CostumerService.class})
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 public class CostumerTest {
 
-    private final CostumerService costumerService;
-
-    private final MockMvc mockMvc;
+    @MockBean
+    private CostumerService costumerService;
 
     @Autowired
-    public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
-        this.costumerService = costumerService;
-        this.mockMvc = mockMvc;
-    }
+    private MockMvc mockMvc;
 
     @Test
     public void postCostumer() throws Exception {
-        log.info("\n---------- CREATING USER ----------");
         Costumer costumer = Costumer.builder()
                 .username("nova")
                 .fullName("Alberto Villalpando")
@@ -53,8 +49,7 @@ public class CostumerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        log.info("\n---------- REGISTERING USER ----------");
-        MockHttpServletResponse response = mockMvc.perform(post("/users/")
+        MockHttpServletResponse response = mockMvc.perform(post("/costumers/register/")
                 .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(costumer)))

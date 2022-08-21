@@ -1,4 +1,4 @@
-package com.teddystore.services;
+package com.teddystore.service;
 
 import com.teddystore.model.Costumer;
 

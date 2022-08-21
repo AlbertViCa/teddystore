@@ -1,4 +1,4 @@
-package com.teddystore.repositories;
+package com.teddystore.repository;
 
 import com.teddystore.model.Teddy;
 import org.springframework.data.repository.CrudRepository;
