@@ -35,7 +35,7 @@ public class CostumerController {
         return costumerService.getCostumers();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("id/{id}")
     @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getUserById(@PathVariable Long id) {

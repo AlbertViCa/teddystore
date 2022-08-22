@@ -3,6 +3,7 @@ package com.teddystore.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Costumer;
+import com.teddystore.model.WebAppUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,9 +37,9 @@ public class CostumerTest {
 
     @Test
     public void postCostumer() throws Exception {
-        Costumer costumer = Costumer.builder()
-                .username("nova")
-                .fullName("Alberto Villalpando")
+        Costumer costumer = (Costumer) WebAppUser.builder()
+                .fullName("nova")
+                .username("Alberto Villalpando")
                 .password("123")
                 .phoneNumber("492 302 1303")
                 .email("alberto@gmail.com")
@@ -61,5 +63,15 @@ public class CostumerTest {
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
         assertNotNull(costumerService.getCostumerById(id));
+    }
+
+    @Test
+    public void costumerNotFound() throws Exception {
+        mockMvc.perform(get("/costumers/id/1")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(jsonPath("$.*", hasSize(0)))
+                .andExpect(status().isNotFound()).andReturn().getResponse();
     }
 }
