@@ -1,6 +1,7 @@
 package com.teddystore.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,11 +11,11 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@Builder
 @ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WebAppUser implements UserDetails {
+public abstract class WebAppUser implements UserDetails {
 
     @Id
     @Column(name = "ID", nullable = false)

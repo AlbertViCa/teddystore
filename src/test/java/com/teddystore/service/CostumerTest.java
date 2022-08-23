@@ -3,7 +3,6 @@ package com.teddystore.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Costumer;
-import com.teddystore.model.WebAppUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +36,9 @@ public class CostumerTest {
 
     @Test
     public void postCostumer() throws Exception {
-        Costumer costumer = (Costumer) WebAppUser.builder()
-                .fullName("nova")
-                .username("Alberto Villalpando")
+        Costumer costumer = Costumer.builder()
+                .fullName("Alberto Villalpando")
+                .username("nova")
                 .password("123")
                 .phoneNumber("492 302 1303")
                 .email("alberto@gmail.com")
@@ -48,18 +47,18 @@ public class CostumerTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         MockHttpServletResponse response = mockMvc.perform(post("/costumers/register/")
-                .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(costumer)))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.*", hasSize(12)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
-                .andExpect(jsonPath("$.username").value("nova"))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
+                .andExpect(jsonPath("$.username").value("nova"))
                 .andExpect(jsonPath("$.password").value("123"))
                 .andExpect(jsonPath("$.phoneNumber").value("492 302 1303"))
                 .andExpect(jsonPath("$.email").value("alberto@gmail.com"))
-                .andExpect(status().is2xxSuccessful()).andReturn().getResponse();
+                .andExpect(status().isCreated()).andReturn().getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
         assertNotNull(costumerService.getCostumerById(id));
