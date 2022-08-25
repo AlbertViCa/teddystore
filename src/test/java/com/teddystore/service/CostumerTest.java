@@ -42,6 +42,7 @@ public class CostumerTest {
                 .password("123")
                 .phoneNumber("492 302 1303")
                 .email("alberto@gmail.com")
+                .authority("SCOPE_costumer:write")
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -51,7 +52,7 @@ public class CostumerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(12)))
+                .andExpect(jsonPath("$.*", hasSize(13)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
                 .andExpect(jsonPath("$.username").value("nova"))
@@ -66,7 +67,7 @@ public class CostumerTest {
 
     @Test
     public void costumerNotFound() throws Exception {
-        mockMvc.perform(get("/costumers/id/1")
+        mockMvc.perform(get("/costumers/id/99")
                         .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
                         .contentType("application/json"))
                 .andDo(print())
