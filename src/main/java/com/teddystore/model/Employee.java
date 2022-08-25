@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@SecondaryTable(name = "EMPLOYEE")
 public class Employee extends WebAppUser {
 
     @Column(name = "SALARY")

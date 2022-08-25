@@ -13,7 +13,6 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@SecondaryTable(name = "COSTUMER")
 public class Costumer extends WebAppUser {
 
     @ToString.Exclude
