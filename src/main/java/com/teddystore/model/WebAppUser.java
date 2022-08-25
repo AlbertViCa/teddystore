@@ -1,5 +1,7 @@
 package com.teddystore.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.teddystore.config.security.AuthorityDeserializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
+@JsonDeserialize(as = Costumer.class)
 public abstract class WebAppUser implements UserDetails {
 
     @Id
@@ -41,6 +44,7 @@ public abstract class WebAppUser implements UserDetails {
     private String authority;
 
     @Override
+    @JsonDeserialize(using = AuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> this.authority);
     }
