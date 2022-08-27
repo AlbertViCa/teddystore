@@ -1,7 +1,6 @@
 package com.teddystore.config.runner;
 
 import com.teddystore.model.Costumer;
-import com.teddystore.repository.AuthorityRepository;
 import com.teddystore.service.CostumerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.teddystore.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
