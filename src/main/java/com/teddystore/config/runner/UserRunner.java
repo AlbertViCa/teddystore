@@ -1,6 +1,7 @@
 package com.teddystore.config.runner;
 
 import com.teddystore.model.Costumer;
+import com.teddystore.repository.AuthorityRepository;
 import com.teddystore.service.CostumerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class UserRunner implements CommandLineRunner {
     private  final PasswordEncoder encoder;
 
     @Autowired
-    public UserRunner(CostumerService costumerService, PasswordEncoder encoder) {
+    public UserRunner(CostumerService costumerService, PasswordEncoder encoder, AuthorityRepository authorityRepository) {
         this.costumerService = costumerService;
         this.encoder = encoder;
     }
@@ -28,15 +29,25 @@ public class UserRunner implements CommandLineRunner {
 
         Costumer costumer = Costumer.builder()
                 .fullName("Alberto Villalpando")
-                .username("Albert")
+                .username("Alberto")
                 .password(encoder.encode("123"))
                 .phoneNumber("492 932 9832")
-                .email("albert@gmail.com")
+                .email("alberto@gmail.com")
                 .authority("SCOPE_costumer:read")
                 .build();
 
+        Costumer costumer2 = Costumer.builder()
+                .fullName("Roberto Esquivel")
+                .username("Roberto")
+                .password(encoder.encode("123"))
+                .phoneNumber("492 932 9832")
+                .email("roberto@gmail.com")
+                .build();
+
         log.info("---------- REGISTERING COSTUMER ----------");
+
         costumerService.registerCostumer(costumer);
+        costumerService.registerCostumer(costumer2);
 
     }
 }

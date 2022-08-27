@@ -26,7 +26,7 @@ public class CostumerServiceImp implements CostumerService {
     @Override
     public Optional<Costumer> getCostumerById(Long id) {
         return Optional.ofNullable(costumerRepository.findById(id)
-                .orElseThrow(() -> new CostumerNotFoundException(String.format("No user with id %s found", id))));
+                .orElseThrow(() -> new CostumerNotFoundException(String.format("No costumer with id %s found", id))));
     }
 
     @Override

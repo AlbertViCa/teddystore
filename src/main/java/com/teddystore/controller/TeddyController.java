@@ -21,47 +21,47 @@ public class TeddyController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOPE_teddy:write')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:write')")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Teddy saveTeddy(@RequestBody Teddy teddy) {
         return teddyService.saveTeddy(teddy);
     }
 
     @GetMapping("id/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_teddy:read')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Teddy> getBYId(@PathVariable Long id) {
         return teddyService.getById(id);
     }
 
     @GetMapping("{name}")
-    @PreAuthorize("hasAuthority('SCOPE_teddy:read')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Teddy> getByName(@PathVariable String name) {
         return teddyService.getByName(name);
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('SCOPE_teddy:read')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Iterable<Teddy>> getAllTeddies() {
        return teddyService.getAllTeddies();
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_teddy:write')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:write')")
     public Teddy updateTeddyDetails(@PathVariable Long id, @RequestBody Teddy teddy) {
         return teddyService.updateTeddyDetails(id, teddy);
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_teddy:delete')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
     public void deleteTeddyById(@PathVariable Long id) {
         teddyService.deleteTeddyById(id);
     }
 
     @DeleteMapping
-    @PreAuthorize("hasAuthority('SCOPE_teddy:delete')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
     public void deleteAllTeddies() {
         teddyService.deleteAll();
     }

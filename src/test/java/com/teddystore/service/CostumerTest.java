@@ -42,7 +42,6 @@ public class CostumerTest {
                 .password("123")
                 .phoneNumber("492 302 1303")
                 .email("alberto@gmail.com")
-                .authority("SCOPE_costumer:write")
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();

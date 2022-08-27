@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -31,14 +32,14 @@ public class CostumerController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
     @ResponseStatus(value = HttpStatus.FOUND)
-    public Iterable<Costumer> getAllUsers() {
+    public Iterable<Costumer> getAllCostumers() {
         return costumerService.getCostumers();
     }
 
     @GetMapping("id/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:read') and #costumer.id == #id")
     @ResponseStatus(value = HttpStatus.FOUND)
-    public Optional<Costumer> getUserById(@PathVariable Long id) {
+    public Optional<Costumer> getCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);
     }
 
@@ -51,19 +52,19 @@ public class CostumerController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_costumer:write')")
-    public Costumer updateUserDetails(@RequestBody Costumer costumer, @PathVariable Long id) {
+    public Costumer updateCostumerDetails(@RequestBody Costumer costumer, @PathVariable Long id) {
         return costumerService.updateCostumerDetails(id, costumer);
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
-    void deleteUserById(@PathVariable Long id) {
+    void deleteCostumerById(@PathVariable Long id) {
         costumerService.deleteCostumerById(id);
     }
 
     @DeleteMapping
     @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
-    void deleteUsers() {
+    void deleteCostumers() {
         costumerService.deleteCostumers();
     }
 }
