@@ -5,12 +5,14 @@ import com.teddystore.service.TeddyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Slf4j
 @Component
+@Order(2)
 public class TeddyRunner implements CommandLineRunner {
 
     private final TeddyService teddyService;

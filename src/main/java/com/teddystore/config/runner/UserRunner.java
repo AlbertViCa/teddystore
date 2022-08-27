@@ -6,11 +6,13 @@ import com.teddystore.service.CostumerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@Order(1)
 public class UserRunner implements CommandLineRunner {
 
     private final CostumerService costumerService;
@@ -18,7 +20,7 @@ public class UserRunner implements CommandLineRunner {
     private  final PasswordEncoder encoder;
 
     @Autowired
-    public UserRunner(CostumerService costumerService, PasswordEncoder encoder, AuthorityRepository authorityRepository) {
+    public UserRunner(CostumerService costumerService, PasswordEncoder encoder) {
         this.costumerService = costumerService;
         this.encoder = encoder;
     }

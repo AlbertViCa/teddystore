@@ -1,18 +1,21 @@
 package com.teddystore.model;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Entity
+@Getter
+@Setter
+@ToString
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "TEDDY_ORDER")
 public class TeddyOrder {
 
     @Id
@@ -20,7 +23,6 @@ public class TeddyOrder {
     @Column(name = "ID")
     Long id;
     Date placedAt;
-    Costumer costumer;
     String deliveryStreet;
     String deliveryCity;
     String deliveryState;
@@ -29,5 +31,14 @@ public class TeddyOrder {
     String creditCardExpirationDate;
     String creditCardCVV;
     BigDecimal totalCost;
-    List<Teddy> teddies;
+
+    @ManyToOne(targetEntity = Costumer.class)
+    @JoinColumn(name = "COSTUMER_ID")
+    @ToString.Exclude
+    Costumer costumer;
+
+    @ManyToMany(targetEntity = Teddy.class)
+    @ToString.Exclude
+    @JoinColumn(name = "TEDDY_ID")
+    List<Teddy> teddies = new ArrayList<>();
 }

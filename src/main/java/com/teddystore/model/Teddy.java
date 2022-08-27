@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +24,8 @@ public class Teddy {
     Double size;
     BigDecimal price;
     String imageURL;
+
+    @ManyToMany(mappedBy = "teddies")
+    @ToString.Exclude
+    List<TeddyOrder> teddyOrder;
 }

@@ -21,4 +21,8 @@ public class Costumer extends WebAppUser {
             cascade = CascadeType.REMOVE
     )
     List<Address> addressList;
+
+    @OneToMany(mappedBy = "costumer")
+    @ToString.Exclude
+    List<TeddyOrder> teddyOrder;
 }
