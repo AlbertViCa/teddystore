@@ -45,10 +45,20 @@ public class UserRunner implements CommandLineRunner {
                 .email("roberto@gmail.com")
                 .build();
 
+        Costumer costumer3 = Costumer.builder()     //FIXME: ONLY EMPLOYEES CAN HAVE Scope_admin, IMPLEMENTED ONLY FOR TESTING PURPOSES
+                .fullName("Andrés Martinez")
+                .username("nova")
+                .password(encoder.encode("123"))
+                .phoneNumber("492 932 9832")
+                .email("alberto@gmail.com")
+                .authority("SCOPE_admin")
+                .build();
+
         log.info("---------- REGISTERING COSTUMER ----------");
 
         costumerService.registerCostumer(costumer);
         costumerService.registerCostumer(costumer2);
+        costumerService.registerCostumer(costumer3);
 
     }
 }
