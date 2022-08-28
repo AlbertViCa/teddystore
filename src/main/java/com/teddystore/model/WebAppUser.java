@@ -22,23 +22,23 @@ import java.util.List;
 public abstract class WebAppUser implements UserDetails {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "FULL_NAME")
     protected String fullName;
 
-    @Column(name = "USERNAME")
+    @Column(name = "USERNAME", unique = true, nullable = false)
     protected String username;
 
     @Column(name = "PASSWORD")
     protected String password;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER", unique = true, nullable = false)
     protected String phoneNumber;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true, nullable = false)
     protected String email;
 
     private String authority;
