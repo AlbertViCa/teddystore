@@ -1,11 +1,12 @@
 package com.teddystore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {
+        "costumer",
+        "creditCardNumber",
+        "creditCardExpirationDate",
+        "creditCardCVV"
+})
 @Table(name = "TEDDY_ORDER")
 public class TeddyOrder {
 
@@ -22,7 +29,7 @@ public class TeddyOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     Long id;
-    Date placedAt;
+    LocalDateTime placedAt;
     String deliveryStreet;
     String deliveryCity;
     String deliveryState;
