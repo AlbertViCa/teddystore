@@ -40,15 +40,11 @@ public class CostumerServiceImp implements CostumerService {
     }
 
     @Override
-    public Costumer updateCostumerDetails(Long id, Costumer costumer) {
+    public Costumer updateCostumerDetails(Long id, Costumer newCostumerDetails) {
         Costumer existingCostumer = costumerRepository.findById(id)
                 .orElseThrow(() -> new CostumerNotFoundException(String.format("No costumer with id %s found", id)));
 
-        existingCostumer.setUsername(costumer.getUsername());
-        existingCostumer.setFullName(costumer.getFullName());
-        existingCostumer.setPassword(costumer.getPassword());
-        existingCostumer.setPhoneNumber(costumer.getPhoneNumber());
-        existingCostumer.setEmail(costumer.getEmail());
+        existingCostumer.updateCostumerDetails(newCostumerDetails);
 
         return costumerRepository.save(existingCostumer);
     }
