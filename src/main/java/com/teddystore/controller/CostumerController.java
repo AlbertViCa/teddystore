@@ -2,7 +2,6 @@ package com.teddystore.controller;
 
 import com.teddystore.model.Costumer;
 import com.teddystore.service.CostumerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,58 +11,59 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/costumers/")
-public class CostumerController {
+@RequestMapping(value = "/costumers/") //TODO: SET TO /api/v1/costumers/ AND CHANGE TESTS
+public class CostumerController {         //TODO: CHOOSE BETTER MAPPING VALUES
 
     private final CostumerService costumerService;
 
-    @Autowired
     public CostumerController(CostumerService costumerService) {
         this.costumerService = costumerService;
     }
 
     @PostMapping(value = "register/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SCOPE_costumer:write')")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Costumer registerUser(@RequestBody Costumer costumer) {
         return costumerService.registerCostumer(costumer);
     }
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Iterable<Costumer> getAllCostumers() {
         return costumerService.getCostumers();
     }
 
-    @GetMapping("id/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:read') and #costumer.id == #id")
+    @GetMapping(value = "id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SCOPE_costumer:read') and #costumer.id == #id or hasAuthority('SCOPE_admin')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);
     }
 
-    @GetMapping("costumer/{username}")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:read')")
+    @GetMapping(value = "costumer/{username}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getByUsername(@PathVariable String username) {
         return costumerService.getByUsername(username);
     }
 
-    @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:write')")
-    public Costumer updateCostumerDetails(@RequestBody Costumer costumer, @PathVariable Long id) {
+    @PutMapping(value = "update/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('SCOPE_costumer:update') and #costumer.id == #id or hasAuthority('SCOPE_admin')")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Costumer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Costumer costumer, @PathVariable Long id) {
         return costumerService.updateCostumerDetails(id, costumer);
     }
 
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
-    void deleteCostumerById(@PathVariable Long id) {
+    @DeleteMapping("{id}/")
+    @PreAuthorize("hasAuthority('SCOPE_costumer:delete') and #costumer.id == #id")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    void deleteCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
     }
 
     @DeleteMapping
-    @PreAuthorize("hasAuthority('SCOPE_costumer:delete')")
+    @PreAuthorize("hasAuthority('SCOPE_owner')")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     void deleteCostumers() {
         costumerService.deleteCostumers();
     }
