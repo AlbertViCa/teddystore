@@ -32,8 +32,8 @@ public class UserRunner implements CommandLineRunner {
                 .fullName("Alberto Villalpando")
                 .username("Alberto")
                 .password(encoder.encode("123"))
-                .phoneNumber("492 932 9832")
-                .email("alberto@gmail.com")
+                .phoneNumber("492 123 9832")
+                .email("albert@gmail.com")
                 .authority("SCOPE_costumer:read")
                 .build();
 
@@ -41,16 +41,16 @@ public class UserRunner implements CommandLineRunner {
                 .fullName("Roberto Esquivel")
                 .username("Roberto")
                 .password(encoder.encode("123"))
-                .phoneNumber("492 932 9832")
+                .phoneNumber("492 931 9832")
                 .email("roberto@gmail.com")
                 .build();
 
         Costumer costumer3 = Costumer.builder()     //FIXME: ONLY EMPLOYEES CAN HAVE Scope_admin, IMPLEMENTED ONLY FOR TESTING PURPOSES
                 .fullName("Andrés Martinez")
-                .username("nova")
+                .username("Andres")
                 .password(encoder.encode("123"))
-                .phoneNumber("492 932 9832")
-                .email("alberto@gmail.com")
+                .phoneNumber("492 935 9832")
+                .email("andres@gmail.com")
                 .authority("SCOPE_admin")
                 .build();
 

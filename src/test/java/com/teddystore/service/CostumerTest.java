@@ -5,7 +5,6 @@ import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Costumer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -28,11 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 public class CostumerTest {
 
-    @Autowired
-    private CostumerService costumerService;
+    private final CostumerService costumerService;
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+
+    public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
+        this.costumerService = costumerService;
+        this.mockMvc = mockMvc;
+    }
 
     @Test
     public void postCostumer() throws Exception {
@@ -40,7 +42,7 @@ public class CostumerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        MockHttpServletResponse response = mockMvc.perform(post("/costumers/register/")
+        MockHttpServletResponse response = mockMvc.perform(post("/api/v1/costumers/register/")
                         .with(jwt().authorities())
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
@@ -61,7 +63,7 @@ public class CostumerTest {
     @Test
     @WithAnonymousUser
     public void costumerNotFound() throws Exception {
-        mockMvc.perform(get("/costumers/id/99/")
+        mockMvc.perform(get("/api/v1/costumers/find-by-id/99/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_admin"))) //FIXME: NEEDS TO WORK WITH Scope_costumer:read
                         .contentType("application/json"))
                 .andDo(print())
@@ -76,7 +78,7 @@ public class CostumerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        mockMvc.perform(post("/costumers/register/")
+        mockMvc.perform(post("/api/v1/costumers/register/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
@@ -84,8 +86,9 @@ public class CostumerTest {
 
         Costumer costumer1 = createCostumer();
         costumer1.setFullName("Cristian Cruz");
+        costumer1.setEmail("cristian@gmail.com");
 
-        MockHttpServletResponse response = mockMvc.perform(put("/costumers/update/4/")
+        MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/4/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_admin"))) //FIXME: NEEDS TO WORK WITH Scope_costumer:update
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer1)))
