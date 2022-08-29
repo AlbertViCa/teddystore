@@ -1,8 +1,11 @@
 package com.teddystore.model;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,4 +24,7 @@ public class Authority {
     @Column(name = "AUTHORITY", nullable = false, unique = true)
     private String name;
 
+    public List<? extends GrantedAuthority> setAuthorities(List<String> authoritiesList) {
+        return AuthorityUtils.createAuthorityList();
+    }
 }
