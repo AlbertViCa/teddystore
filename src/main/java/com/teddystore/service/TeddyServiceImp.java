@@ -4,10 +4,12 @@ import com.teddystore.exception.TeddyNotFoundException;
 import com.teddystore.model.Teddy;
 import com.teddystore.repository.TeddyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TeddyServiceImp implements TeddyService {
 
     private final TeddyRepository teddyRepository;

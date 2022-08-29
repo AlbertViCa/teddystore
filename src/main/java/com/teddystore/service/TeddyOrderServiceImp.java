@@ -4,11 +4,13 @@ import com.teddystore.exception.OrderNotFoundException;
 import com.teddystore.model.TeddyOrder;
 import com.teddystore.repository.TeddyOrderRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TeddyOrderServiceImp implements TeddyOrderService{
 
     private final TeddyOrderRepository teddyOrderRepository;
