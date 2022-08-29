@@ -14,8 +14,20 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
+
+    @Column(name = "STREET", nullable = false)
+    String street;
+
+    @Column(name = "CITY", nullable = false)
+    String city;
+
+    @Column(name = "STATE", nullable = false)
+    String state;
+
+    @Column(name = "ZIP_CODE", nullable = false)
+    String zipCode;
 
     @ManyToOne
     @JoinTable(
