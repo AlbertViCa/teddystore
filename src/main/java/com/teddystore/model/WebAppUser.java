@@ -26,13 +26,13 @@ public abstract class WebAppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "FULL_NAME")
+    @Column(name = "FULL_NAME", nullable = false)
     protected String fullName;
 
     @Column(name = "USERNAME", unique = true, nullable = false)
     protected String username;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     protected String password;
 
     @Column(name = "PHONE_NUMBER", unique = true, nullable = false)
