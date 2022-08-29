@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,13 +31,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 public class TeddyTest {
 
-    @Autowired
-    private TeddyService teddyService;
+    private final TeddyService teddyService;
+
+    private final MockMvc mockMvc;
 
     @Autowired
-    private MockMvc mockMvc;
+    public TeddyTest(TeddyService teddyService, MockMvc mockMvc) {
+        this.teddyService = teddyService;
+        this.mockMvc = mockMvc;
+    }
 
     @Test
+    @WithAnonymousUser
     public void postTeddy() throws Exception {
         Teddy teddy = Teddy.builder()
                 .name("Teddy")
@@ -48,8 +54,8 @@ public class TeddyTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        MockHttpServletResponse response = mockMvc.perform(post("/teddies/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_teddy:write")))
+        MockHttpServletResponse response = mockMvc.perform(post("/api/v1/teddies/create/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(teddy)))
                 .andDo(print())
@@ -68,8 +74,8 @@ public class TeddyTest {
 
     @Test
     public void teddyNotFound() throws Exception {
-        mockMvc.perform(get("/teddies/id/1")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_teddy:read")))
+        mockMvc.perform(get("/api/v1/teddies/find-by-id/99/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(0)))

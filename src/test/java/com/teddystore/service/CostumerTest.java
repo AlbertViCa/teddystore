@@ -5,6 +5,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Costumer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -12,6 +13,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -24,13 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class) //TODO: MAKE ID REQUEST VALUES FINAL PARAMETERS
 public class CostumerTest {
 
     private final CostumerService costumerService;
 
     private final MockMvc mockMvc;
 
+    @Autowired
     public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
         this.costumerService = costumerService;
         this.mockMvc = mockMvc;
@@ -38,7 +42,13 @@ public class CostumerTest {
 
     @Test
     public void postCostumer() throws Exception {
-        Costumer costumer = createCostumer();
+        Costumer costumer = Costumer.builder()
+                .fullName("Alberto Villalpando")
+                .username("Nova")
+                .password("123")
+                .phoneNumber("492 143 1303")
+                .email("alberto99@gmail.com")
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,10 +60,10 @@ public class CostumerTest {
                 .andExpect(jsonPath("$.*", hasSize(12)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
-                .andExpect(jsonPath("$.username").value("nova"))
+                .andExpect(jsonPath("$.username").value("Nova"))
                 .andExpect(jsonPath("$.password").value("123"))
-                .andExpect(jsonPath("$.phoneNumber").value("492 302 1303"))
-                .andExpect(jsonPath("$.email").value("alberto@gmail.com"))
+                .andExpect(jsonPath("$.phoneNumber").value("492 143 1303"))
+                .andExpect(jsonPath("$.email").value("alberto99@gmail.com"))
                 .andExpect(status().isCreated()).andReturn().getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
@@ -74,7 +84,13 @@ public class CostumerTest {
     @Test
     @WithAnonymousUser
     public void updateCostumer() throws Exception {
-        Costumer costumer = createCostumer();
+        Costumer costumer = Costumer.builder()
+                .fullName("Alberto Villalpando")
+                .username("Villalpando")
+                .password("123")
+                .phoneNumber("492 543 1023")
+                .email("villalpando@gmail.com")
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -84,7 +100,8 @@ public class CostumerTest {
                         .content(objectMapper.writeValueAsString(costumer)))
                         .andDo(print());
 
-        Costumer costumer1 = createCostumer();
+        Optional<Costumer> result = costumerService.getCostumerById(4L);
+        Costumer costumer1 = result.get();
         costumer1.setFullName("Cristian Cruz");
         costumer1.setEmail("cristian@gmail.com");
 
@@ -103,10 +120,10 @@ public class CostumerTest {
     private Costumer createCostumer() {
         return  Costumer.builder()
                 .fullName("Alberto Villalpando")
-                .username("nova")
+                .username("Nova")
                 .password("123")
-                .phoneNumber("492 302 1303")
-                .email("alberto@gmail.com")
+                .phoneNumber("492 143 1303")
+                .email("alberto99@gmail.com")
                 .build();
     }
 }
