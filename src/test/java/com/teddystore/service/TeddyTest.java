@@ -73,6 +73,20 @@ public class TeddyTest {
     }
 
     @Test
+    @WithAnonymousUser
+    public void teddyFound() throws Exception {
+        mockMvc.perform(get("/api/v1/teddies/find-by-id/1/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.id", greaterThan(0)))
+                .andExpect(jsonPath("$.name").value("Bard"))
+                .andExpect(status().isFound()).andReturn().getResponse();
+    }
+
+    @Test
+    @WithAnonymousUser
     public void teddyNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/teddies/find-by-id/99/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
