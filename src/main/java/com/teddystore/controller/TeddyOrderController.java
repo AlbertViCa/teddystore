@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/orders/")
+@RequestMapping("/api/v1/orders/")
 public class TeddyOrderController {
 
     private final TeddyOrderService teddyOrderService;
@@ -22,7 +22,7 @@ public class TeddyOrderController {
         teddyOrderService.createOrder(teddyOrder);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("find-by-id/{id}/")
     public Optional<TeddyOrder> getOrderById(@PathVariable Long id) {
         return teddyOrderService.getOrderById(id);
     }
