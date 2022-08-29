@@ -1,5 +1,6 @@
 package com.teddystore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties(value = {
+        "teddyOrder"
+})
 public class Teddy {
 
     @Id
