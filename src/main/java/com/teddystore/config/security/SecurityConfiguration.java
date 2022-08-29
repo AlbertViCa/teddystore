@@ -3,8 +3,10 @@ package com.teddystore.config.security;
 import com.teddystore.repository.CostumerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,9 +30,24 @@ public class SecurityConfiguration {
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
     }
 
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**");
+//    }
+
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**");
+    @Primary
+    public HttpSecurity filterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeRequests()
+                .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login")
+                .permitAll()
+
+                .and()
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                );
     }
 
 //    @Bean
