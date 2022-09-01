@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class CostumerServiceImp implements CostumerService {
+public class CostumerServiceImp implements CostumerService { //TODO: IMPLEMENT COSTUMER NOT FOUND EXCEPTION WHERE NEEDED
 
     private final CostumerRepository costumerRepository;
 
