@@ -6,9 +6,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -41,12 +43,19 @@ public abstract class WebAppUser implements UserDetails {
     @Column(name = "EMAIL", unique = true, nullable = false)
     protected String email;
 
-    private String authority;
+    @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private List<Authority> authorities;
 
     @Override
+    @Transactional
     @JsonDeserialize(using = AuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> this.authority);
+        List<GrantedAuthority> grantedAuthorities = new LinkedList<>();
+        for (Authority authority : authorities){
+            grantedAuthorities.addAll(Authority.setAuthorities(String.valueOf(authority)));
+        }
+        return grantedAuthorities;
     }
 
     @Override

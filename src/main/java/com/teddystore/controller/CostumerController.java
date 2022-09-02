@@ -27,42 +27,42 @@ public class CostumerController {
     }
 
     @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Iterable<Costumer> getAllCostumers() {
         return costumerService.getCostumers();
     }
 
     @GetMapping(value = "find-by-id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SCOPE_costumer:read') and #costumer.id == #id or hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('READ') and #costumer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);
     }
 
     @GetMapping(value = "find-by-username/{username}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getByUsername(@PathVariable String username) {
         return costumerService.getByUsername(username);
     }
 
     @PutMapping(value = "update-details/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('SCOPE_costumer:update') and #costumer.id == #id or hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('UPDATE') and #costumer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Costumer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Costumer costumer, @PathVariable Long id) {
         return costumerService.updateCostumerDetails(id, costumer);
     }
 
     @DeleteMapping("delete-by-id/{id}/")
-    @PreAuthorize("hasAuthority('SCOPE_costumer:delete') and #costumer.id == #id")
+    @PreAuthorize("hasAuthority('DELETE') and #costumer.id == #id")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     void deleteCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
     }
 
     @DeleteMapping("delete-all/")
-    @PreAuthorize("hasAuthority('SCOPE_owner')")
+    @PreAuthorize("hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     void deleteCostumers() {
         costumerService.deleteCostumers();
