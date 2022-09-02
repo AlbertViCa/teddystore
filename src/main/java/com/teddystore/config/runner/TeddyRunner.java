@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Slf4j
 @Component
-@Order(2)
+@Order(3)
 public class TeddyRunner implements CommandLineRunner {
 
     private final TeddyService teddyService;

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-@Order(3)
+@Order(4)
 public class TeddyOrderRunner implements CommandLineRunner {
 
     private final TeddyOrderService teddyOrderService;
