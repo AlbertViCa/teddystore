@@ -17,8 +17,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {
+        "password",
         "teddyOrder",
-        "addressList"
+        "addressList",
+        "authorities",
+        "enabled",
+        "accountNonExpired",
+        "credentialsNonExpired",
+        "accountNonLocked"
 })
 public class Costumer extends WebAppUser {
 
