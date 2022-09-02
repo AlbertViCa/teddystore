@@ -37,18 +37,18 @@ public class SecurityConfiguration {
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**");
+    }
 
     @Bean
     @Primary
     public HttpSecurity filterChain(HttpSecurity http) throws Exception {
         return http
+                .cors()
 
-                //.csrf().disable().cors().and()
-
+                .and()
                 .authorizeRequests()
                 .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login")
                 .permitAll()
@@ -60,22 +60,23 @@ public class SecurityConfiguration {
                 );
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000/")
-                        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("*")
+//                        .allowedOrigins("*")
+//                        .allowedMethods("*")
+//                        .allowedHeaders("*");
+//            }
+//        };
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000/"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
 
         // setAllowCredentials(true) is important, otherwise:
