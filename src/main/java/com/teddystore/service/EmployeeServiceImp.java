@@ -4,11 +4,13 @@ import com.teddystore.model.Authority;
 import com.teddystore.model.Employee;
 import com.teddystore.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class EmployeeServiceImp implements EmployeeService{
 
     private final EmployeeRepository employeeRepository;
