@@ -36,14 +36,14 @@ public class UserRunner implements CommandLineRunner {
 
         List<Authority> costumerAuthorities = authorityService.findAll();
 
-        costumerAuthorities.remove(0);
+        costumerAuthorities.remove(4);
 
         log.info("---------- CREATING COSTUMER ----------");
 
         Costumer costumer = Costumer.builder()
                 .fullName("Alberto Villalpando")
                 .username("Alberto")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 123 9832")
                 .email("albert@gmail.com")
                 .authorities(authorityService.findAll())
@@ -52,7 +52,7 @@ public class UserRunner implements CommandLineRunner {
         Costumer costumer2 = Costumer.builder()
                 .fullName("Roberto Esquivel")
                 .username("Roberto")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 931 9832")
                 .email("roberto@gmail.com")
                 .authorities(costumerAuthorities)
@@ -61,7 +61,7 @@ public class UserRunner implements CommandLineRunner {
         Costumer costumer3 = Costumer.builder()     //FIXME: ONLY EMPLOYEES CAN HAVE Scope_admin, IMPLEMENTED ONLY FOR TESTING PURPOSES
                 .fullName("Andrés Martinez")
                 .username("Andres")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 935 9832")
                 .email("andres@gmail.com")
                 .authorities(costumerAuthorities)

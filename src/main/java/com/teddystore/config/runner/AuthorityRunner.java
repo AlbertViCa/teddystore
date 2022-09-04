@@ -14,20 +14,19 @@ public class AuthorityRunner implements CommandLineRunner {
 
     public AuthorityRunner(AuthorityService authorityService) {
         this.authorityService = authorityService;
-
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Authority read = Authority.builder().id("READ").build();
+        Authority read = Authority.builder().name("READ").build();
 
-        Authority create = Authority.builder().id("CREATE").build();
+        Authority create = Authority.builder().name("CREATE").build();
 
-        Authority delete = Authority.builder().id("DELETE").build();
+        Authority delete = Authority.builder().name("DELETE").build();
 
-        Authority update = Authority.builder().id("UPDATE").build();
+        Authority update = Authority.builder().name("UPDATE").build();
 
-        Authority admin = Authority.builder().id("ADMIN").build();
+        Authority admin = Authority.builder().name("ADMIN").build();
 
         authorityService.saveAuthority(read);
         authorityService.saveAuthority(create);

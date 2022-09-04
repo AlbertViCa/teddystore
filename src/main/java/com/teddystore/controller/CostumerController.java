@@ -1,11 +1,13 @@
 package com.teddystore.controller;
 
+import com.auth0.jwt.JWT;
 import com.teddystore.model.Costumer;
 import com.teddystore.service.CostumerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -34,7 +36,7 @@ public class CostumerController {
     }
 
     @GetMapping(value = "find-by-id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('READ') and #costumer.id == #id or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('READ') or hasAuthority('ADMIN')") //and #costumer.id == #id
     @ResponseStatus(value = HttpStatus.FOUND)
     public Optional<Costumer> getCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);

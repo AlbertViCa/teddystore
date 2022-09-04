@@ -17,7 +17,11 @@ public class Authority {
 
     @Id
     @Column(name = "ID", nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "NAME", nullable = false)
+    private String name;
 
     public static List<? extends GrantedAuthority> setAuthorities(String authorities) {
         return AuthorityUtils.createAuthorityList(authorities);
@@ -25,6 +29,6 @@ public class Authority {
 
     @Override
     public String toString() {
-        return id;
+        return name;
     }
 }

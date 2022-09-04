@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {
-        "password",
+        //"password",
         "teddyOrder",
         "addressList",
         "authorities",

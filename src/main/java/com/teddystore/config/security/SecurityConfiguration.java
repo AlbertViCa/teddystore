@@ -3,8 +3,11 @@ package com.teddystore.config.security;
 import com.teddystore.repository.CostumerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,11 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -26,16 +28,23 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
+    private final AuthenticationManager authenticationManager;
+
+    @Lazy
+    public SecurityConfiguration(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(CostumerRepository userRepo) throws InternalAuthenticationServiceException {
-        return username -> userRepo.getByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
-    }
+    //@Bean
+//    public UserDetailsService userDetailsService(CostumerRepository userRepo) throws InternalAuthenticationServiceException {
+//        return username -> userRepo.getByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
+//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -46,18 +55,29 @@ public class SecurityConfiguration {
     @Primary
     public HttpSecurity filterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf().disable()
                 .cors()
 
                 .and()
+                .formLogin()
+                .defaultSuccessUrl("/api/v1/costumers/", true)
+
+                .and()
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login")
+                .antMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login")
                 .permitAll()
 
                 .and()
+                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(new CustomAuthenticationFilter(authenticationManager))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                );
+                        .logoutSuccessUrl("/login"));
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
 //    @Bean
