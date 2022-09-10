@@ -1,1 +1,1 @@
-# teddystore
+# TeddyStore
