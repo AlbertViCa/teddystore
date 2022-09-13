@@ -38,8 +38,7 @@ public class TeddyOrderRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Iterator<Teddy> result = Optional.ofNullable(teddyService.getAllTeddies()
-                .orElseThrow(
-                        () -> new TeddyNotFoundException("")))
+                .orElseThrow(() -> new TeddyNotFoundException("")))
                 .get()
                 .iterator();
 

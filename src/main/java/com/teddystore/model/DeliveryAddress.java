@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ADDRESS")
-public class Address {
+public class DeliveryAddress {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -40,5 +40,5 @@ public class Address {
                     nullable = false
             )
     )
-    Costumer costumerAddress;
+    Costumer costumer;
 }

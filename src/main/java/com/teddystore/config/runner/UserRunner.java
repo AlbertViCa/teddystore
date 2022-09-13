@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,14 +19,11 @@ public class UserRunner implements CommandLineRunner {
 
     private final CostumerService costumerService;
 
-    private  final PasswordEncoder encoder;
-
     private final AuthorityService authorityService;
 
     @Autowired
-    public UserRunner(CostumerService costumerService, PasswordEncoder encoder, AuthorityService authorityService) {
+    public UserRunner(CostumerService costumerService, AuthorityService authorityService) {
         this.costumerService = costumerService;
-        this.encoder = encoder;
         this.authorityService = authorityService;
     }
 
@@ -43,25 +39,25 @@ public class UserRunner implements CommandLineRunner {
         Costumer costumer = Costumer.builder()
                 .fullName("Alberto Villalpando")
                 .username("Alberto")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 123 9832")
                 .email("albert@gmail.com")
-                .authorities(authorityService.findAll())
+                .authorities(authorityService.findAll()) //FIXME: ONLY EMPLOYEES CAN HAVE ADMIN AUTHORITY, IMPLEMENTED ONLY FOR TESTING PURPOSES.
                 .build();
 
         Costumer costumer2 = Costumer.builder()
                 .fullName("Roberto Esquivel")
                 .username("Roberto")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 931 9832")
                 .email("roberto@gmail.com")
                 .authorities(costumerAuthorities)
                 .build();
 
-        Costumer costumer3 = Costumer.builder()     //FIXME: ONLY EMPLOYEES CAN HAVE Scope_admin, IMPLEMENTED ONLY FOR TESTING PURPOSES
-                .fullName("Andrés Martinez")
+        Costumer costumer3 = Costumer.builder()
+                .fullName("Andrés Martínez")
                 .username("Andres")
-                .password(encoder.encode("123"))
+                .password("123")
                 .phoneNumber("492 935 9832")
                 .email("andres@gmail.com")
                 .authorities(costumerAuthorities)

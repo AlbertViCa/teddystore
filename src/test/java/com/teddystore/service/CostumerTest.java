@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class) //TODO: MAKE ID REQUEST VALUES FINAL PARAMETERS
+@ExtendWith(SpringExtension.class) //TODO: MAKE ID REQUEST VALUES FINAL PARAMETERS.
 public class CostumerTest {
 
     private final CostumerService costumerService;
@@ -57,11 +57,10 @@ public class CostumerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(12)))
+                .andExpect(jsonPath("$.*", hasSize(7)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
                 .andExpect(jsonPath("$.username").value("Nova"))
-                .andExpect(jsonPath("$.password").value("123"))
                 .andExpect(jsonPath("$.phoneNumber").value("492 143 1303"))
                 .andExpect(jsonPath("$.email").value("alberto99@gmail.com"))
                 .andExpect(status().isCreated()).andReturn().getResponse();
@@ -74,7 +73,7 @@ public class CostumerTest {
     @WithAnonymousUser
     public void costumerNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/costumers/find-by-id/99/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_admin"))) //FIXME: NEEDS TO WORK WITH Scope_costumer:read
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(0)))
@@ -95,7 +94,7 @@ public class CostumerTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         mockMvc.perform(post("/api/v1/costumers/register/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                         .andDo(print());
@@ -106,7 +105,7 @@ public class CostumerTest {
         costumer1.setEmail("cristian@gmail.com");
 
         MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/4/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_admin"))) //FIXME: NEEDS TO WORK WITH Scope_costumer:update
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH UPDATE.
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer1)))
                 .andDo(print())
