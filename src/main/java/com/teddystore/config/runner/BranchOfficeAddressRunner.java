@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(9)
+@Order(10)
 public class BranchOfficeAddressRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {

@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(10)
+@Order(11)
 public class SupplierRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
