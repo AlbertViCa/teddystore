@@ -92,7 +92,7 @@ public class CostumerController {
     }
 
     @DeleteMapping("delete-by-id/{id}/")
-    @PreAuthorize("hasAuthority('DELETE') and #costumer.id == #id")
+    @PreAuthorize("hasAuthority('DELETE') and #costumer.id == #id or hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     void deleteCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
