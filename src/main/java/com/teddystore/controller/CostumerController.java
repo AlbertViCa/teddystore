@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * @author Alberto Villalpando <br><br>
  * Clase a la que se le harán peticiones desde un cliente a través de peticiones <strong>CRUD <font color="#85ba6a">{@code POST, GET, PUT, DELETE}</font></strong>. <br><br>
- * <font color="#85ba6a"><strong>{@code @RestController}</strong></font>: Transforma la clase para que esta se encargue de exponer la infomración en una API. <br><br>
+ * <font color="#85ba6a"><strong>{@code @RestController}</strong></font>: Transforma la clase para que esta se encargue de exponer la información en una API. <br><br>
  * <font color="#85ba6a"><strong>{@code @RequestMapping}</strong></font>: Ruta base a la que se le harán peticiones a esta clase. <br> Ej: http://localhost:8080<strong>/api/v1/costumers/find-by-id/1/</strong> <br><br>
  * <font color="#85ba6a"><strong>{@code @PostMapping}</strong></font>: Método que se enacarga de crear o persistir información en la API. <br>
  *      &emsp <font color="#8bacb0"><strong>{@code value}</strong></font>: Ruta para solicirar el método. <br>
