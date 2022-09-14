@@ -22,6 +22,7 @@ import java.util.Optional;
  * </strong>
  * @see <a href="https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html">Interface CrudRepository</a>
  * @see <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods">Query Methods</a>
+ * @see <a href="https://livebook.manning.com/book/java-persistence-with-hibernate-third-edition/chapter-2/v-13/">Java Persistence with Spring Data and Hibernate: 2 Starting a project</a>
  * */
 @Repository
 public interface CostumerRepository extends CrudRepository<Costumer, Long> {
