@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.teddystore.config.security.AuthorityDeserializer;
 import com.teddystore.controller.CostumerController;
 import com.teddystore.service.CostumerService;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -61,21 +62,27 @@ public abstract class WebAppUser implements UserDetails {
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(notes = "User ID", example = "1", required = true)
     private Long id;
 
     @Column(name = "FULL_NAME", nullable = false)
+    @ApiModelProperty(notes = "User full name", example = "Alberto Villalpando", required = true)
     protected String fullName;
 
     @Column(name = "USERNAME", unique = true, nullable = false)
+    @ApiModelProperty(notes = "User username", example = "Alberto", required = true)
     protected String username;
 
     @Column(name = "PASSWORD", nullable = false)
+    @ApiModelProperty(hidden = true)
     protected String password;
 
     @Column(name = "PHONE_NUMBER", unique = true, nullable = false)
+    @ApiModelProperty(notes = "User phone number", example = "123 456 7890", required = true)
     protected String phoneNumber;
 
     @Column(name = "EMAIL", unique = true, nullable = false)
+    @ApiModelProperty(notes = "User email", example = "alberto@gmail.com", required = true)
     protected String email;
 
     @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)
