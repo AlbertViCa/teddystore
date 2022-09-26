@@ -3,11 +3,15 @@ package com.teddystore.controller;
 import com.teddystore.model.Costumer;
 import com.teddystore.service.CostumerService;
 import com.teddystore.service.CostumerServiceImp;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Optional;
 /**
@@ -49,6 +53,7 @@ import java.util.Optional;
  **/
 @RestController
 @RequestMapping(value = "/api/v1/costumers/") //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS.
+@ApiOperation("Costumer API")
 public class CostumerController {
 
     private final CostumerService costumerService;
@@ -59,6 +64,11 @@ public class CostumerController {
 
     @PostMapping(value = "register/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
+    @ApiOperation(value = "POST a Costumer", notes = "Registers a Costumer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Costumer registered"),
+            @ApiResponse(code = 409, message = "Could not create - No Costumer registered")
+    })
     public Costumer registerUser(@RequestBody Costumer costumer) {
         return costumerService.registerCostumer(costumer);
     }
@@ -66,6 +76,11 @@ public class CostumerController {
     @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
+    @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved"),
+            @ApiResponse(code = 404, message = "Not found - No costumers registered")
+    })
     public Iterable<Costumer> getAllCostumers() {
         return costumerService.getCostumers();
     }
@@ -73,13 +88,23 @@ public class CostumerController {
     @GetMapping(value = "find-by-id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('READ') and #costumer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
-    public Optional<Costumer> getCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
+    @ApiOperation(value = "GET a costumer by id", notes = "Returns a costumer as per the id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved"),
+            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+    })
+    public Optional<Costumer> getCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);
     }
 
     @GetMapping(value = "find-by-username/{username}/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
+    @ApiOperation(value = "GET a costumer by username", notes = "Returns a costumer as per the username")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved"),
+            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+    })
     public Optional<Costumer> getByUsername(@PathVariable String username) {
         return costumerService.getByUsername(username);
     }
@@ -87,6 +112,11 @@ public class CostumerController {
     @PutMapping(value = "update-details/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('UPDATE') and #costumer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.CREATED)
+    @ApiOperation(value = "PUT a Costumer", notes = "Updates Costumer details")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully updated"),
+            @ApiResponse(code = 409, message = "Could not update - No Costumer details were updated")
+    })
     public Costumer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Costumer costumer, @PathVariable Long id) {
         return costumerService.updateCostumerDetails(id, costumer);
     }
@@ -94,13 +124,23 @@ public class CostumerController {
     @DeleteMapping("delete-by-id/{id}/")
     @PreAuthorize("hasAuthority('DELETE') and #costumer.id == #id or hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    void deleteCostumerById(@AuthenticationPrincipal Costumer costumer, @PathVariable Long id) {
+    @ApiOperation(value = "DELETE a costumer by id", notes = "Deletes a Costumer as per id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully deleted"),
+            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+    })
+    void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
     }
 
     @DeleteMapping("delete-all/")
     @PreAuthorize("hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "DELETE all costumer", notes = "Deletes all costumers")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully deleted"),
+            @ApiResponse(code = 404, message = "Not found - No costumers were found")
+    })
     void deleteCostumers() {
         costumerService.deleteCostumers();
     }
