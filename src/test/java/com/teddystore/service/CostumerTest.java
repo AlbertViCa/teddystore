@@ -38,7 +38,7 @@ public class CostumerTest {
 
     private final Long UPDATE_DETAILS_ID = 4L;
     private final Long DELETE_ID = 1L;
-    private final Long NOT_FOUND_ID = 99L;
+    private final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
     private final Long FORBIDDEN_ID = 2L;
 
     @Autowired
