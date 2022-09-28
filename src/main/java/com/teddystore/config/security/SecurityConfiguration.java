@@ -45,7 +45,7 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/swagger-ui");
+        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/swagger-ui/#/**");
     }
 
     @Bean
@@ -56,7 +56,7 @@ public class SecurityConfiguration {
 
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login","/swagger-ui", "/swagger-ui/**")
+                .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login","/swagger-ui/**", "/swagger-ui/#/**")
                 .permitAll()
 
                 .and()
