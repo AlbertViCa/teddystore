@@ -42,6 +42,10 @@ public class CostumerTest {
         this.mockMvc = mockMvc;
     }
 
+    /**
+     * <strong><font color="green">Happy Path</font></strong>
+     * */
+
     @Test
     @Order(1)
     @DisplayName("POST Costumer and then CREATED (201)")
@@ -91,21 +95,6 @@ public class CostumerTest {
                 .andExpect(jsonPath("$.phoneNumber").value("492 123 9832"))
                 .andExpect(jsonPath("$.email").value("albert@gmail.com"))
                 .andExpect(status().isFound())
-                .andReturn()
-                .getResponse();
-    }
-
-    @Test
-    @Order(6)
-    @WithAnonymousUser
-    @DisplayName("GET Costumer and then NOT FOUND (404)")
-    public void costumerNotFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-id/99/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
-                        .contentType("application/json"))
-                .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(0)))
-                .andExpect(status().isNotFound())
                 .andReturn()
                 .getResponse();
     }
@@ -178,13 +167,31 @@ public class CostumerTest {
                 .getResponse();
     }
 
+    /**
+     * <strong><font color="red">Unhappy Path</font></strong>
+     * */
+
+    @Test
+    @Order(6)
+    @WithAnonymousUser
+    @DisplayName("GET Costumer and then NOT FOUND (404)")
+    public void costumerNotFound() throws Exception {
+        mockMvc.perform(get("/api/v1/costumers/find-by-id/99/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(jsonPath("$.*", hasSize(0)))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+    }
+
     @Test
     @Order(7)
-    @WithAnonymousUser
-    @DisplayName("DELETE ALL Costumers and then FORBIDDEN (403)")
-    public void deleteAllCostumersNotAuthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-all/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("DELETE")))
+    @WithMockUser
+    @DisplayName("DELETE Costumer and then FORBIDDEN (403)")
+    public void deleteCostumerNotAuthorized() throws Exception {
+        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/1/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isForbidden())
@@ -194,10 +201,11 @@ public class CostumerTest {
 
     @Test
     @Order(8)
-    @WithMockUser
-    @DisplayName("DELETE Costumer and then FORBIDDEN (403)")
-    public void deleteCostumerNotAuthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/1/")
+    @WithAnonymousUser
+    @DisplayName("DELETE ALL Costumers and then FORBIDDEN (403)")
+    public void deleteAllCostumersNotAuthorized() throws Exception {
+        mockMvc.perform(delete("/api/v1/costumers/delete-all/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("DELETE")))
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isForbidden())
