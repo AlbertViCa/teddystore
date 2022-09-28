@@ -36,6 +36,11 @@ public class CostumerTest {
 
     private final MockMvc mockMvc;
 
+    private final Long UPDATE_DETAILS_ID = 4L;
+    private final Long DELETE_ID = 1L;
+    private final Long NOT_FOUND_ID = 99L;
+    private final Long FORBIDDEN_ID = 2L;
+
     @Autowired
     public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
         this.costumerService = costumerService;
@@ -125,7 +130,7 @@ public class CostumerTest {
         costumer1.setFullName("Cristian Cruz");
         costumer1.setEmail("cristian@gmail.com");
 
-        MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/4/")
+        MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/" + UPDATE_DETAILS_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH UPDATE.
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer1)))
@@ -144,7 +149,7 @@ public class CostumerTest {
     @WithAnonymousUser
     @DisplayName("DELETE Costumer and then NO CONTENT (204)")
     public void deleteCostumer() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/1/")
+        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/" + DELETE_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("OWNER")))
                         .contentType("application/json"))
                 .andDo(print())
@@ -176,7 +181,7 @@ public class CostumerTest {
     @WithAnonymousUser
     @DisplayName("GET Costumer and then NOT FOUND (404)")
     public void costumerNotFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-id/99/")
+        mockMvc.perform(get("/api/v1/costumers/find-by-id/" + NOT_FOUND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -191,7 +196,7 @@ public class CostumerTest {
     @WithMockUser
     @DisplayName("DELETE Costumer and then FORBIDDEN (403)")
     public void deleteCostumerNotAuthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/1/")
+        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/" + FORBIDDEN_ID + "/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isForbidden())
