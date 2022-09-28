@@ -51,7 +51,10 @@ public class Costumer extends WebAppUser {
     )
     List<DeliveryAddress> addressList;
 
-    @OneToMany(mappedBy = "costumer")
+    @OneToMany(
+            mappedBy = "costumer",
+            cascade = CascadeType.REMOVE
+    )
     @ToString.Exclude
     List<TeddyOrder> teddyOrder;
 
