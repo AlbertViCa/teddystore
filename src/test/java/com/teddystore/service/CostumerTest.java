@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,6 +37,8 @@ public class CostumerTest {
 
     private static final Long UPDATE_DETAILS_ID = 5L;
     private static final Long FIND_ID = 1L;
+    private static final String FIND_USERNAME = "Alberto";
+    private static final String USERNAME_NOT_FOUND = "Alejandro";
     private static final Long DELETE_ID = 2L;
     private static final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
     private static final Long FORBIDDEN_ID = 3L;
@@ -88,7 +89,7 @@ public class CostumerTest {
     @Test
     @Order(2)
     @WithAnonymousUser
-    @DisplayName("GET Costumer and then FOUND (302)")
+    @DisplayName("GET Costumer by ID and then FOUND (302)")
     public void costumerFound() throws Exception {
         mockMvc.perform(get("/api/v1/costumers/find-by-id/" + FIND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
@@ -107,6 +108,47 @@ public class CostumerTest {
 
     @Test
     @Order(3)
+    @WithAnonymousUser
+    @DisplayName("GET Costumer by USERNAME and then FOUND (302)")
+    public void getCostumerByUsername() throws Exception {
+        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + FIND_USERNAME + "/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.id", greaterThan(0)))
+                .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
+                .andExpect(jsonPath("$.username").value("Alberto"))
+                .andExpect(jsonPath("$.phoneNumber").value("492 123 9832"))
+                .andExpect(jsonPath("$.email").value("albert@gmail.com"))
+                .andExpect(status().isFound())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    @Order(4)
+    @WithAnonymousUser
+    @DisplayName("GET ALL Costumers and then FOUND (302)")
+    public void getAllCostumers() throws Exception {
+        mockMvc.perform(get("/api/v1/costumers/find-all/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(jsonPath("$.*", hasSize(4)))
+                .andExpect(jsonPath("$.[0].id", equalTo(1)))
+                .andExpect(jsonPath("$.[0].username").value("Alberto"))
+                .andExpect(jsonPath("$.[1].id", equalTo(2)))
+                .andExpect(jsonPath("$.[1].username").value("Roberto"))
+                .andExpect(jsonPath("$.[2].id", equalTo(3)))
+                .andExpect(jsonPath("$.[2].username").value("Andres"))
+                .andExpect(status().isFound())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    @Order(5)
     @WithAnonymousUser
     @DisplayName("PUT Costumer and then CREATED (201)")
     public void updateCostumer() throws Exception {
@@ -147,9 +189,9 @@ public class CostumerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     @WithAnonymousUser
-    @DisplayName("DELETE Costumer and then NO CONTENT (204)")
+    @DisplayName("DELETE Costumer by ID and then NO CONTENT (204)")
     public void deleteCostumer() throws Exception {
         mockMvc.perform(delete("/api/v1/costumers/delete-by-id/" + DELETE_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("OWNER")))
@@ -161,7 +203,7 @@ public class CostumerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     @WithAnonymousUser
     @DisplayName("DELETE ALL Costumers and then NO CONTENT (204)")
     public void deleteAllCostumers() throws Exception {
@@ -179,9 +221,9 @@ public class CostumerTest {
      * */
 
     @Test
-    @Order(6)
+    @Order(8)
     @WithAnonymousUser
-    @DisplayName("GET Costumer and then NOT FOUND (404)")
+    @DisplayName("GET Costumer by ID and then NOT FOUND (404)")
     public void costumerNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/costumers/find-by-id/" + NOT_FOUND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
@@ -194,7 +236,35 @@ public class CostumerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(9)
+    @WithAnonymousUser
+    @DisplayName("GET Costumer by USERNAME and then NOT FOUND (402)")
+    public void getCostumerByUsernameNotFound() throws Exception {
+        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + USERNAME_NOT_FOUND + "/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    @Order(10)
+    @WithAnonymousUser
+    @DisplayName("GET Costumer by USERNAME and then FORBIDDEN (403)")
+    public void getCostumerByUsernameNotAuthorized() throws Exception {
+        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + FIND_USERNAME + "/")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("READ"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .contentType("application/json"))
+                .andDo(print())
+                .andExpect(status().isForbidden())
+                .andReturn()
+                .getResponse();
+    }
+
+    @Test
+    @Order(11)
     @WithMockUser
     @DisplayName("DELETE Costumer and then FORBIDDEN (403)")
     public void deleteCostumerNotAuthorized() throws Exception {
@@ -207,7 +277,7 @@ public class CostumerTest {
     }
 
     @Test
-    @Order(8)
+    @Order(12)
     @WithAnonymousUser
     @DisplayName("DELETE ALL Costumers and then FORBIDDEN (403)")
     public void deleteAllCostumersNotAuthorized() throws Exception {
