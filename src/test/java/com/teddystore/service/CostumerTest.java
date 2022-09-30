@@ -36,7 +36,7 @@ public class CostumerTest {
 
     private final MockMvc mockMvc;
 
-    private final Long UPDATE_DETAILS_ID = 4L;
+    private final Long UPDATE_DETAILS_ID = 5L;
     private final Long FIND_ID = 1L;
     private final Long DELETE_ID = 2L;
     private final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
@@ -126,7 +126,7 @@ public class CostumerTest {
                         .content(objectMapper.writeValueAsString(costumer)))
                         .andDo(print());
 
-        Optional<Costumer> result = costumerService.getCostumerById(4L);
+        Optional<Costumer> result = costumerService.getCostumerById(UPDATE_DETAILS_ID);
         Costumer costumer1 = result.get();
         costumer1.setFullName("Cristian Cruz");
         costumer1.setEmail("cristian@gmail.com");
