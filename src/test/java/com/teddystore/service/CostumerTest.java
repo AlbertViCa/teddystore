@@ -37,9 +37,11 @@ public class CostumerTest {
     private final MockMvc mockMvc;
 
     private final Long UPDATE_DETAILS_ID = 4L;
-    private final Long DELETE_ID = 1L;
+    private final Long FIND_ID = 1L;
+
+    private final Long DELETE_ID = 2L;
     private final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
-    private final Long FORBIDDEN_ID = 2L;
+    private final Long FORBIDDEN_ID = 3L;
 
     @Autowired
     public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
@@ -89,7 +91,7 @@ public class CostumerTest {
     @WithAnonymousUser
     @DisplayName("GET Costumer and then FOUND (302)")
     public void costumerFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-id/1/")
+        mockMvc.perform(get("/api/v1/costumers/find-by-id/" + FIND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
