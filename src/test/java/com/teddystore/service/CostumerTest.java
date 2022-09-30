@@ -238,7 +238,7 @@ public class CostumerTest {
     @Test
     @Order(9)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by USERNAME and then NOT FOUND (402)")
+    @DisplayName("GET Costumer by USERNAME and then NOT FOUND (404)")
     public void getCostumerByUsernameNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/costumers/find-by-username/" + USERNAME_NOT_FOUND + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
