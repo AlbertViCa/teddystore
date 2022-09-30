@@ -127,7 +127,8 @@ public class CostumerTest {
                         .andDo(print());
 
         Optional<Costumer> result = costumerService.getCostumerById(UPDATE_DETAILS_ID);
-        Costumer costumer1 = result.get();
+        Costumer costumer1 = result.orElse(null);
+        assert costumer1 != null;
         costumer1.setFullName("Cristian Cruz");
         costumer1.setEmail("cristian@gmail.com");
 
