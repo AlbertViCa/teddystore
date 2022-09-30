@@ -36,11 +36,11 @@ public class CostumerTest {
 
     private final MockMvc mockMvc;
 
-    private final Long UPDATE_DETAILS_ID = 5L;
-    private final Long FIND_ID = 1L;
-    private final Long DELETE_ID = 2L;
-    private final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
-    private final Long FORBIDDEN_ID = 3L;
+    private static final Long UPDATE_DETAILS_ID = 5L;
+    private static final Long FIND_ID = 1L;
+    private static final Long DELETE_ID = 2L;
+    private static final Long NOT_FOUND_ID = (long) Integer.MAX_VALUE;
+    private static final Long FORBIDDEN_ID = 3L;
 
     @Autowired
     public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
