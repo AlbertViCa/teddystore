@@ -12,10 +12,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -37,9 +37,8 @@ public class TeddyOrderRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Iterator<Teddy> result = Optional.ofNullable(teddyService.getAllTeddies()
-                .orElseThrow(() -> new TeddyNotFoundException("")))
-                .get()
+        Iterator<Teddy> result = teddyService.getAllTeddies()
+                .orElseThrow(() -> new TeddyNotFoundException(""))
                 .iterator();
 
         log.info("---------- CREATING ORDER ----------");
@@ -51,6 +50,7 @@ public class TeddyOrderRunner implements CommandLineRunner {
         TeddyOrder teddyOrder = TeddyOrder.builder()
                 .teddies(teddies)
                 .costumer(costumerService.getCostumerById(1L).orElseThrow(() -> new CostumerNotFoundException("")))
+                .totalCost(BigDecimal.valueOf(250.00))
                 .build();
 
         log.info("---------- SAVING ORDER ----------");
