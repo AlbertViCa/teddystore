@@ -4,17 +4,22 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sun.istack.NotNull;
 import com.teddystore.config.security.AuthorityDeserializer;
 import com.teddystore.controller.CostumerController;
 import com.teddystore.service.CostumerService;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,30 +65,47 @@ import java.util.List;
 public abstract class WebAppUser implements UserDetails {
 
     @Id
-    @Column(name = "ID", unique = true, nullable = false)
+    @Column(name = "ID", unique = true, nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(notes = "User ID", example = "1", required = true)
     private Long id;
 
+    @NotNull
     @Column(name = "FULL_NAME", nullable = false)
     @ApiModelProperty(notes = "User full name", example = "Alberto Villalpando", required = true)
     protected String fullName;
 
+    @NotNull
     @Column(name = "USERNAME", unique = true, nullable = false)
     @ApiModelProperty(notes = "User username", example = "Alberto", required = true)
     protected String username;
 
+    @NotNull
     @Column(name = "PASSWORD", nullable = false)
     @ApiModelProperty(hidden = true)
     protected String password;
 
+    @Nullable
     @Column(name = "PHONE_NUMBER", unique = true, nullable = false)
     @ApiModelProperty(notes = "User phone number", example = "123 456 7890", required = true)
     protected String phoneNumber;
 
+    @NotNull
     @Column(name = "EMAIL", unique = true, nullable = false)
     @ApiModelProperty(notes = "User email", example = "alberto@gmail.com", required = true)
     protected String email;
+
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "UPDATE_DATE", nullable = false)
+    private LocalDateTime lastUpdatedAt;
+
+    @Version
+    @Column(name = "VERSION")
+    protected Long version;
 
     @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)
     @ToString.Exclude
