@@ -1,6 +1,7 @@
 package com.teddystore.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Costumer;
 import org.junit.jupiter.api.*;
@@ -72,7 +73,7 @@ public class CostumerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(7)))
+                .andExpect(jsonPath("$.*", hasSize(10)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
                 .andExpect(jsonPath("$.username").value("Nova"))
@@ -95,7 +96,7 @@ public class CostumerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.*", hasSize(9)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
                 .andExpect(jsonPath("$.username").value("Alberto"))
@@ -115,7 +116,7 @@ public class CostumerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.*", hasSize(9)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
                 .andExpect(jsonPath("$.username").value("Alberto"))
@@ -161,12 +162,15 @@ public class CostumerTest {
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
         mockMvc.perform(post("/api/v1/costumers/register/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                         .andDo(print());
+
+        Thread.sleep(2000);
 
         Optional<Costumer> result = costumerService.getCostumerById(UPDATE_DETAILS_ID);
         Costumer costumer1 = result.orElse(null);
