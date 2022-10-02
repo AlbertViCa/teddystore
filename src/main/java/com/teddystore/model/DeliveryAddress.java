@@ -1,5 +1,6 @@
 package com.teddystore.model;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 @Table(name = "ADDRESS")
 public class DeliveryAddress {
 
@@ -17,15 +19,19 @@ public class DeliveryAddress {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @NotNull
     @Column(name = "STREET", nullable = false)
     String street;
 
+    @NotNull
     @Column(name = "CITY", nullable = false)
     String city;
 
+    @NotNull
     @Column(name = "STATE", nullable = false)
     String state;
 
+    @NotNull
     @Column(name = "ZIP_CODE", nullable = false)
     String zipCode;
 
