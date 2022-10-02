@@ -1,7 +1,9 @@
 package com.teddystore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,6 +23,7 @@ import java.util.List;
         "creditCardExpirationDate",
         "creditCardCVV"
 })
+@Embeddable
 @Table(name = "TEDDY_ORDER")
 public class TeddyOrder {
 
@@ -28,15 +31,27 @@ public class TeddyOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     Long id;
-    LocalDateTime placedAt;
-    String deliveryStreet;
-    String deliveryCity;
-    String deliveryState;
-    String zip;
-    String creditCardNumber;
-    String creditCardExpirationDate;
-    String creditCardCVV;
-    BigDecimal totalCost;
+
+    @CreationTimestamp
+    private LocalDateTime placedAt;
+
+    private String deliveryStreet;
+
+    private String deliveryCity;
+
+    private String deliveryState;
+
+    private String zip;
+
+    private String creditCardNumber;
+
+    private String creditCardExpirationDate;
+
+    private String creditCardCVV;
+
+    @NotNull
+    @Column(name = "TOTAL_COST", nullable = false)
+    private BigDecimal totalCost;
 
     @ManyToOne(targetEntity = Costumer.class)
     @JoinColumn(name = "COSTUMER_ID")
