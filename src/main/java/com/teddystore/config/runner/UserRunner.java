@@ -1,5 +1,6 @@
 package com.teddystore.config.runner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teddystore.model.Authority;
 import com.teddystore.model.Costumer;
 import com.teddystore.service.AuthorityService;
@@ -63,7 +64,12 @@ public class UserRunner implements CommandLineRunner {
                 .authorities(costumerAuthorities)
                 .build();
 
-        log.info("---------- REGISTERING COSTUMER ----------");
+        ObjectMapper mapper = new ObjectMapper();
+
+        log.info("---------- REGISTERING COSTUMER ---------- \n{}, \n{}, \n{}",
+                mapper.writeValueAsString(costumer),
+                mapper.writeValueAsString(costumer2),
+                mapper.writeValueAsString(costumer3));
 
         costumerService.registerCostumer(costumer);
         costumerService.registerCostumer(costumer2);
