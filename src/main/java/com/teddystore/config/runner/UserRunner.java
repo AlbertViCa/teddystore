@@ -38,29 +38,35 @@ public class UserRunner implements CommandLineRunner {
         log.info("---------- CREATING COSTUMER ----------");
 
         Costumer costumer = Costumer.builder()
-                .fullName("Alberto Villalpando")
+                .firstName("Alberto")
+                .lastName("Villalpando")
+                .secondLastName("Cardona")
                 .username("Alberto")
                 .password("123")
                 .phoneNumber("492 123 9832")
-                .email("albert@gmail.com")
+                .email("alberto@gmail.com")
                 .authorities(authorityService.findAll()) //FIXME: ONLY EMPLOYEES CAN HAVE ADMIN AUTHORITY, IMPLEMENTED ONLY FOR TESTING PURPOSES.
                 .build();
 
         Costumer costumer2 = Costumer.builder()
-                .fullName("Roberto Esquivel")
-                .username("Roberto")
+                .firstName("Andrea")
+                .lastName("Barragán")
+                .secondLastName("Gonzáles")
+                .username("Andrea")
                 .password("123")
                 .phoneNumber("492 931 9832")
-                .email("roberto@gmail.com")
+                .email("andrea@gmail.com")
                 .authorities(costumerAuthorities)
                 .build();
 
         Costumer costumer3 = Costumer.builder()
-                .fullName("Andrés Martínez")
-                .username("Andres")
+                .firstName("María Esmeralda")
+                .lastName("Pacheco")
+                .secondLastName("González")
+                .username("Esmeralda")
                 .password("123")
                 .phoneNumber("492 935 9832")
-                .email("andres@gmail.com")
+                .email("esmeralda@gmail.com")
                 .authorities(costumerAuthorities)
                 .build();
 

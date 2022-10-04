@@ -59,7 +59,9 @@ public class CostumerTest {
     @DisplayName("POST Costumer and then CREATED (201)")
     public void postCostumer() throws Exception {
         Costumer costumer = Costumer.builder()
-                .fullName("Alberto Villalpando")
+                .firstName("Alberto")
+                .lastName("Villalpando")
+                .secondLastName("Cardona")
                 .username("Nova")
                 .password("123")
                 .phoneNumber("492 143 1303")
@@ -73,9 +75,10 @@ public class CostumerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(10)))
+                .andExpect(jsonPath("$.*", hasSize(12)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
-                .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
+                .andExpect(jsonPath("$.firstName").value("Alberto"))
+                .andExpect(jsonPath("$.lastName").value("Villalpando"))
                 .andExpect(jsonPath("$.username").value("Nova"))
                 .andExpect(jsonPath("$.phoneNumber").value("492 143 1303"))
                 .andExpect(jsonPath("$.email").value("alberto99@gmail.com"))
@@ -96,12 +99,13 @@ public class CostumerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(11)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
-                .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
+                .andExpect(jsonPath("$.firstName").value("Alberto"))
+                .andExpect(jsonPath("$.lastName").value("Villalpando"))
                 .andExpect(jsonPath("$.username").value("Alberto"))
                 .andExpect(jsonPath("$.phoneNumber").value("492 123 9832"))
-                .andExpect(jsonPath("$.email").value("albert@gmail.com"))
+                .andExpect(jsonPath("$.email").value("alberto@gmail.com"))
                 .andExpect(status().isFound())
                 .andReturn()
                 .getResponse();
@@ -116,12 +120,13 @@ public class CostumerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(11)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
-                .andExpect(jsonPath("$.fullName").value("Alberto Villalpando"))
+                .andExpect(jsonPath("$.firstName").value("Alberto"))
+                .andExpect(jsonPath("$.lastName").value("Villalpando"))
                 .andExpect(jsonPath("$.username").value("Alberto"))
                 .andExpect(jsonPath("$.phoneNumber").value("492 123 9832"))
-                .andExpect(jsonPath("$.email").value("albert@gmail.com"))
+                .andExpect(jsonPath("$.email").value("alberto@gmail.com"))
                 .andExpect(status().isFound())
                 .andReturn()
                 .getResponse();
@@ -140,9 +145,9 @@ public class CostumerTest {
                 .andExpect(jsonPath("$.[0].id", equalTo(1)))
                 .andExpect(jsonPath("$.[0].username").value("Alberto"))
                 .andExpect(jsonPath("$.[1].id", equalTo(2)))
-                .andExpect(jsonPath("$.[1].username").value("Roberto"))
+                .andExpect(jsonPath("$.[1].username").value("Andrea"))
                 .andExpect(jsonPath("$.[2].id", equalTo(3)))
-                .andExpect(jsonPath("$.[2].username").value("Andres"))
+                .andExpect(jsonPath("$.[2].username").value("Esmeralda"))
                 .andExpect(status().isFound())
                 .andReturn()
                 .getResponse();
@@ -154,7 +159,9 @@ public class CostumerTest {
     @DisplayName("PUT Costumer and then CREATED (201)")
     public void updateCostumer() throws Exception {
         Costumer costumer = Costumer.builder()
-                .fullName("Alberto Villalpando")
+                .firstName("Alberto")
+                .lastName("Villalpando")
+                .secondLastName("Cardona")
                 .username("Villalpando")
                 .password("123")
                 .phoneNumber("492 543 1023")
@@ -175,7 +182,9 @@ public class CostumerTest {
         Optional<Costumer> result = costumerService.getCostumerById(UPDATE_DETAILS_ID);
         Costumer costumer1 = result.orElse(null);
         assert costumer1 != null;
-        costumer1.setFullName("Cristian Cruz");
+        costumer1.setFirstName("Cristian");
+        costumer1.setLastName("Cruz");
+        costumer1.setSecondLastName("Delgado");
         costumer1.setEmail("cristian@gmail.com");
 
         MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/" + UPDATE_DETAILS_ID + "/")
@@ -183,7 +192,7 @@ public class CostumerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(costumer1)))
                 .andDo(print())
-                .andExpect(jsonPath("$.fullName").value("Cristian Cruz"))
+                .andExpect(jsonPath("$.firstName").value("Cristian"))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse();
@@ -296,7 +305,9 @@ public class CostumerTest {
 
     private Costumer createCostumer() {
         return  Costumer.builder()
-                .fullName("Alberto Villalpando")
+                .firstName("Alberto")
+                .lastName("Villalpando")
+                .secondLastName("Cardona")
                 .username("Nova")
                 .password("123")
                 .phoneNumber("492 143 1303")
