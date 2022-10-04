@@ -51,7 +51,7 @@ public class UserRunner implements CommandLineRunner {
         Costumer costumer2 = Costumer.builder()
                 .firstName("Andrea")
                 .lastName("Barragán")
-                .secondLastName("Gonzáles")
+                .secondLastName("González")
                 .username("Andrea")
                 .password("123")
                 .phoneNumber("492 931 9832")
