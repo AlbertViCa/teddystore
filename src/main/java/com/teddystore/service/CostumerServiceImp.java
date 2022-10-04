@@ -70,7 +70,7 @@ public class CostumerServiceImp implements CostumerService {
         Costumer existingCostumer = costumerRepository.findById(id)
                 .orElseThrow(() -> new CostumerNotFoundException(String.format("No costumer with id %s found", id)));
 
-        existingCostumer.updateCostumerDetails(newCostumerDetails);
+        existingCostumer.updateUserDetails(newCostumerDetails);
 
         return costumerRepository.save(existingCostumer);
     }

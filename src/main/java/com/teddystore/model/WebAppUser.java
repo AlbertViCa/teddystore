@@ -133,6 +133,15 @@ public abstract class WebAppUser implements UserDetails {
         return grantedAuthorities;
     }
 
+    public <T extends WebAppUser> void updateUserDetails(T newUserDetails) {
+        this.setUsername(newUserDetails.getUsername());
+        this.setFirstName(newUserDetails.getFirstName());
+        this.setLastName(newUserDetails.getLastName());
+        this.setSecondLastName(newUserDetails.getSecondLastName());
+        this.setPhoneNumber(newUserDetails.getPhoneNumber());
+        this.setEmail(newUserDetails.getEmail());
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

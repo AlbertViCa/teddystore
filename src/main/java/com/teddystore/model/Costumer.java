@@ -57,12 +57,4 @@ public class Costumer extends WebAppUser {
     )
     @ToString.Exclude
     List<TeddyOrder> teddyOrder;
-
-    public void updateCostumerDetails(Costumer newCostumerDetails) {
-        this.setUsername(newCostumerDetails.getUsername());
-        this.setFullName(newCostumerDetails.getFullName());
-        this.setPassword(newCostumerDetails.getPassword());
-        this.setPhoneNumber(newCostumerDetails.getPhoneNumber());
-        this.setEmail(newCostumerDetails.getEmail());
-    }
 }
