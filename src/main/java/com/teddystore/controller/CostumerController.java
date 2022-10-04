@@ -129,7 +129,7 @@ public class CostumerController {
             @ApiResponse(code = 204, message = "Successfully deleted"),
             @ApiResponse(code = 404, message = "Not found - Costumer not found")
     })
-    void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
+    public void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
     }
 
@@ -141,7 +141,7 @@ public class CostumerController {
             @ApiResponse(code = 204, message = "Successfully deleted"),
             @ApiResponse(code = 404, message = "Not found - No costumers found")
     })
-    void deleteCostumers() {
+    public void deleteCostumers() {
         costumerService.deleteCostumers();
     }
 }

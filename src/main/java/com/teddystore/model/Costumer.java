@@ -49,12 +49,12 @@ public class Costumer extends WebAppUser {
             mappedBy = "costumer",
             cascade = CascadeType.REMOVE
     )
-    List<DeliveryAddress> addressList;
+    private List<DeliveryAddress> addressList;
 
     @OneToMany(
             mappedBy = "costumer",
             cascade = CascadeType.REMOVE
     )
     @ToString.Exclude
-    List<TeddyOrder> teddyOrder;
+    private List<TeddyOrder> teddyOrder;
 }
