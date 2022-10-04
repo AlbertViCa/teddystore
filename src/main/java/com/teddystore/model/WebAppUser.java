@@ -57,7 +57,8 @@ import java.util.List;
 @MappedSuperclass
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type")
+        property = "type"
+)
 @JsonSubTypes({
         @Type(value = Costumer.class, name = "costumer"),
         @Type(value = Employee.class, name = "employee")
@@ -72,8 +73,18 @@ public abstract class WebAppUser implements UserDetails {
 
     @NotNull
     @Column(name = "FULL_NAME", nullable = false)
-    @ApiModelProperty(notes = "User full name", example = "Alberto Villalpando", required = true)
-    protected String fullName;
+    @ApiModelProperty(notes = "User full name", example = "Alberto", required = true)
+    protected String firstName;
+
+    @NotNull
+    @Column(name = "LAST_NAME", nullable = false)
+    @ApiModelProperty(notes = "User last name", example = "Villalpando", required = true)
+    protected String lastName;
+
+    @NotNull
+    @Column(name = "SECOND_LAST_NAME")
+    @ApiModelProperty(notes = "User second last name", example = "Cardona", required = true)
+    protected String secondLastName;
 
     @NotNull
     @Column(name = "USERNAME", unique = true, nullable = false)
@@ -105,7 +116,7 @@ public abstract class WebAppUser implements UserDetails {
 
     @Version
     @Column(name = "VERSION")
-    protected Long version;
+    private Long version;
 
     @ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER)
     @ToString.Exclude
