@@ -72,7 +72,7 @@ public abstract class WebAppUser implements UserDetails {
     private Long id;
 
     @NotNull
-    @Column(name = "FULL_NAME", nullable = false)
+    @Column(name = "FIRST_NAME", nullable = false)
     @ApiModelProperty(notes = "User full name", example = "Alberto", required = true)
     protected String firstName;
 
