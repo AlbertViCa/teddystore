@@ -69,20 +69,8 @@ public class CostumerController {
             @ApiResponse(code = 201, message = "Costumer registered"),
             @ApiResponse(code = 409, message = "Could not create - No Costumer registered")
     })
-    public Costumer registerUser(@RequestBody Costumer costumer) {
+    public Costumer registerCostumer(@RequestBody Costumer costumer) {
         return costumerService.registerCostumer(costumer);
-    }
-
-    @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @ResponseStatus(value = HttpStatus.FOUND)
-    @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - No costumers registered")
-    })
-    public Iterable<Costumer> getAllCostumers() {
-        return costumerService.getCostumers();
     }
 
     @GetMapping(value = "find-by-id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -107,6 +95,18 @@ public class CostumerController {
     })
     public Optional<Costumer> getByUsername(@PathVariable String username) {
         return costumerService.getByUsername(username);
+    }
+
+    @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(value = HttpStatus.FOUND)
+    @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved"),
+            @ApiResponse(code = 404, message = "Not found - No costumers registered")
+    })
+    public Iterable<Costumer> getAllCostumers() {
+        return costumerService.getCostumers();
     }
 
     @PutMapping(value = "update-details/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
