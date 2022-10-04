@@ -79,7 +79,7 @@ public class CostumerController {
     @ApiOperation(value = "GET a costumer by id", notes = "Returns a costumer as per the id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+            @ApiResponse(code = 404, message = "Not found - Costumer not found")
     })
     public Optional<Costumer> getCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
         return costumerService.getCostumerById(id);
@@ -91,7 +91,7 @@ public class CostumerController {
     @ApiOperation(value = "GET a costumer by username", notes = "Returns a costumer as per the username")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+            @ApiResponse(code = 404, message = "Not found - Costumer not found")
     })
     public Optional<Costumer> getByUsername(@PathVariable String username) {
         return costumerService.getByUsername(username);
@@ -103,7 +103,7 @@ public class CostumerController {
     @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - No costumers registered")
+            @ApiResponse(code = 404, message = "Not found - No costumer found")
     })
     public Iterable<Costumer> getAllCostumers() {
         return costumerService.getCostumers();
@@ -115,7 +115,7 @@ public class CostumerController {
     @ApiOperation(value = "PUT a Costumer", notes = "Updates Costumer details")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
-            @ApiResponse(code = 409, message = "Could not update - No Costumer details were updated")
+            @ApiResponse(code = 409, message = "Could not update - No Costumer details updated")
     })
     public Costumer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Costumer costumer, @PathVariable Long id) {
         return costumerService.updateCostumerDetails(id, costumer);
@@ -127,7 +127,7 @@ public class CostumerController {
     @ApiOperation(value = "DELETE a costumer by id", notes = "Deletes a Costumer as per id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfully deleted"),
-            @ApiResponse(code = 404, message = "Not found - The Costumer was not found")
+            @ApiResponse(code = 404, message = "Not found - Costumer not found")
     })
     void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
         costumerService.deleteCostumerById(id);
@@ -139,7 +139,7 @@ public class CostumerController {
     @ApiOperation(value = "DELETE all costumer", notes = "Deletes all costumers")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfully deleted"),
-            @ApiResponse(code = 404, message = "Not found - No costumers were found")
+            @ApiResponse(code = 404, message = "Not found - No costumers found")
     })
     void deleteCostumers() {
         costumerService.deleteCostumers();
