@@ -56,10 +56,10 @@ public class TeddyOrder {
     @ManyToOne(targetEntity = Costumer.class)
     @JoinColumn(name = "COSTUMER_ID")
     @ToString.Exclude
-    Costumer costumer;
+    private Costumer costumer;
 
     @ManyToMany(targetEntity = Teddy.class)
     @ToString.Exclude
     @JoinColumn(name = "TEDDY_ID")
-    List<Teddy> teddies;
+    private List<Teddy> teddies;
 }
