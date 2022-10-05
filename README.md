@@ -18,3 +18,8 @@ Actualmente las ventas se realizan mediante pequeños establecimientos en evento
 
 **Modelos de Negocio que se Aplican en Este Proyecto**  
 B2C
+
+## UML  
+### Costumer Class Diagram
+
+![alt text](https://i.imgur.com/SVDSlRA.png)
