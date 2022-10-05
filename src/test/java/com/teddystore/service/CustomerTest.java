@@ -3,7 +3,7 @@ package com.teddystore.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jayway.jsonpath.JsonPath;
-import com.teddystore.model.Costumer;
+import com.teddystore.model.Customer;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CostumerTest {
+public class CustomerTest {
 
-    private final CostumerService costumerService;
+    private final CustomerService customerService;
 
     private final MockMvc mockMvc;
 
+    private static final String BASE_PATH = "/api/v1/customers/";
     private static final Long UPDATE_DETAILS_ID = 5L;
     private static final Long FIND_ID = 1L;
     private static final String FIND_USERNAME = "Alberto";
@@ -45,8 +46,8 @@ public class CostumerTest {
     private static final Long FORBIDDEN_ID = 3L;
 
     @Autowired
-    public CostumerTest(CostumerService costumerService, MockMvc mockMvc) {
-        this.costumerService = costumerService;
+    public CustomerTest(CustomerService customerService, MockMvc mockMvc) {
+        this.customerService = customerService;
         this.mockMvc = mockMvc;
     }
 
@@ -56,9 +57,9 @@ public class CostumerTest {
 
     @Test
     @Order(1)
-    @DisplayName("POST Costumer and then CREATED (201)")
-    public void postCostumer() throws Exception {
-        Costumer costumer = Costumer.builder()
+    @DisplayName("POST Customer and then CREATED (201)")
+    public void postCustomerAndThenCreated() throws Exception {
+        Customer customer = Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
                 .secondLastName("Cardona")
@@ -70,10 +71,10 @@ public class CostumerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        MockHttpServletResponse response = mockMvc.perform(post("/api/v1/costumers/register/")
+        MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH + "register/")
                         .with(jwt().authorities())
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(costumer)))
+                        .content(objectMapper.writeValueAsString(customer)))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(12)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
@@ -87,15 +88,15 @@ public class CostumerTest {
                 .getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
-        assertNotNull(costumerService.getCostumerById(id));
+        assertNotNull(customerService.getCustomerById(id));
     }
 
     @Test
     @Order(2)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by ID and then FOUND (302)")
-    public void costumerFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-id/" + FIND_ID + "/")
+    @DisplayName("GET Customer by ID and then FOUND (302)")
+    public void getCustomerAndThenFound() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-by-id/" + FIND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -114,9 +115,9 @@ public class CostumerTest {
     @Test
     @Order(3)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by USERNAME and then FOUND (302)")
-    public void getCostumerByUsername() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + FIND_USERNAME + "/")
+    @DisplayName("GET Customer by USERNAME and then FOUND (302)")
+    public void getCustomerByUsernameAndThenFound() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-by-username/" + FIND_USERNAME + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -135,9 +136,9 @@ public class CostumerTest {
     @Test
     @Order(4)
     @WithAnonymousUser
-    @DisplayName("GET ALL Costumers and then FOUND (302)")
-    public void getAllCostumers() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-all/")
+    @DisplayName("GET ALL Customers and then FOUND (302)")
+    public void getAllCustomersAndThenFound() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-all/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -156,9 +157,9 @@ public class CostumerTest {
     @Test
     @Order(5)
     @WithAnonymousUser
-    @DisplayName("PUT Costumer and then CREATED (201)")
-    public void updateCostumer() throws Exception {
-        Costumer costumer = Costumer.builder()
+    @DisplayName("PUT Customer and then CREATED (201)")
+    public void updateCustomerAndThenCreated() throws Exception {
+        Customer customer = Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
                 .secondLastName("Cardona")
@@ -171,26 +172,26 @@ public class CostumerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        mockMvc.perform(post("/api/v1/costumers/register/")
+        mockMvc.perform(post(BASE_PATH + "register/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(costumer)))
+                        .content(objectMapper.writeValueAsString(customer)))
                         .andDo(print());
 
         Thread.sleep(2000);
 
-        Optional<Costumer> result = costumerService.getCostumerById(UPDATE_DETAILS_ID);
-        Costumer costumer1 = result.orElse(null);
-        assert costumer1 != null;
-        costumer1.setFirstName("Cristian");
-        costumer1.setLastName("Cruz");
-        costumer1.setSecondLastName("Delgado");
-        costumer1.setEmail("cristian@gmail.com");
+        Optional<Customer> result = customerService.getCustomerById(UPDATE_DETAILS_ID);
+        Customer customer1 = result.orElse(null);
+        assert customer1 != null;
+        customer1.setFirstName("Cristian");
+        customer1.setLastName("Cruz");
+        customer1.setSecondLastName("Delgado");
+        customer1.setEmail("cristian@gmail.com");
 
-        MockHttpServletResponse response = mockMvc.perform(put("/api/v1/costumers/update-details/" + UPDATE_DETAILS_ID + "/")
+        MockHttpServletResponse response = mockMvc.perform(put(BASE_PATH + "update-details/" + UPDATE_DETAILS_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH UPDATE.
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(costumer1)))
+                        .content(objectMapper.writeValueAsString(customer1)))
                 .andDo(print())
                 .andExpect(jsonPath("$.firstName").value("Cristian"))
                 .andExpect(status().isCreated())
@@ -198,15 +199,15 @@ public class CostumerTest {
                 .getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
-        assertNotNull(costumerService.getCostumerById(id));
+        assertNotNull(customerService.getCustomerById(id));
     }
 
     @Test
     @Order(6)
     @WithAnonymousUser
-    @DisplayName("DELETE Costumer by ID and then NO CONTENT (204)")
-    public void deleteCostumer() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/" + DELETE_ID + "/")
+    @DisplayName("DELETE Customer by ID and then NO CONTENT (204)")
+    public void deleteCustomerAndThenNoContent() throws Exception {
+        mockMvc.perform(delete(BASE_PATH + "delete-by-id/" + DELETE_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("OWNER")))
                         .contentType("application/json"))
                 .andDo(print())
@@ -218,9 +219,9 @@ public class CostumerTest {
     @Test
     @Order(7)
     @WithAnonymousUser
-    @DisplayName("DELETE ALL Costumers and then NO CONTENT (204)")
-    public void deleteAllCostumers() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-all/")
+    @DisplayName("DELETE ALL Customers and then NO CONTENT (204)")
+    public void deleteAllCustomersAndThenNoContent() throws Exception {
+        mockMvc.perform(delete(BASE_PATH + "delete-all/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("OWNER")))
                         .contentType("application/json"))
                 .andDo(print())
@@ -236,9 +237,9 @@ public class CostumerTest {
     @Test
     @Order(8)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by ID and then NOT FOUND (404)")
-    public void costumerNotFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-id/" + NOT_FOUND_ID + "/")
+    @DisplayName("GET Customer by ID and then NOT FOUND (404)")
+    public void getCostumerAndThenNotFound() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-by-id/" + NOT_FOUND_ID + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -251,9 +252,9 @@ public class CostumerTest {
     @Test
     @Order(9)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by USERNAME and then NOT FOUND (404)")
-    public void getCostumerByUsernameNotFound() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + USERNAME_NOT_FOUND + "/")
+    @DisplayName("GET Customer by USERNAME and then NOT FOUND (404)")
+    public void getCustomerByUsernameAndThenNotFound() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-by-username/" + USERNAME_NOT_FOUND + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -265,9 +266,9 @@ public class CostumerTest {
     @Test
     @Order(10)
     @WithAnonymousUser
-    @DisplayName("GET Costumer by USERNAME and then FORBIDDEN (403)")
-    public void getCostumerByUsernameNotAuthorized() throws Exception {
-        mockMvc.perform(get("/api/v1/costumers/find-by-username/" + FIND_USERNAME + "/")
+    @DisplayName("GET Customer by USERNAME and then FORBIDDEN (403)")
+    public void getCustomerByUsernameAndThenNotAuthorized() throws Exception {
+        mockMvc.perform(get(BASE_PATH + "find-by-username/" + FIND_USERNAME + "/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("READ"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
@@ -279,9 +280,9 @@ public class CostumerTest {
     @Test
     @Order(11)
     @WithMockUser
-    @DisplayName("DELETE Costumer and then FORBIDDEN (403)")
-    public void deleteCostumerNotAuthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-by-id/" + FORBIDDEN_ID + "/")
+    @DisplayName("DELETE Customer and then FORBIDDEN (403)")
+    public void deleteCustomerAndThenNotAuthorized() throws Exception {
+        mockMvc.perform(delete(BASE_PATH + "costumers/delete-by-id/" + FORBIDDEN_ID + "/")
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isForbidden())
@@ -292,9 +293,9 @@ public class CostumerTest {
     @Test
     @Order(12)
     @WithAnonymousUser
-    @DisplayName("DELETE ALL Costumers and then FORBIDDEN (403)")
-    public void deleteAllCostumersNotAuthorized() throws Exception {
-        mockMvc.perform(delete("/api/v1/costumers/delete-all/")
+    @DisplayName("DELETE ALL Customers and then FORBIDDEN (403)")
+    public void deleteAllCustomersAndThenNotAuthorized() throws Exception {
+        mockMvc.perform(delete(BASE_PATH + "delete-all/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("DELETE")))
                         .contentType("application/json"))
                 .andDo(print())
@@ -303,8 +304,8 @@ public class CostumerTest {
                 .getResponse();
     }
 
-    private Costumer createCostumer() {
-        return  Costumer.builder()
+    private Customer createCostumer() {
+        return  Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
                 .secondLastName("Cardona")

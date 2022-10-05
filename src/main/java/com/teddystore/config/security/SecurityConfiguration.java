@@ -1,6 +1,6 @@
 package com.teddystore.config.security;
 
-import com.teddystore.repository.CostumerRepository;
+import com.teddystore.repository.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -16,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -38,14 +36,14 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(CostumerRepository userRepo) throws InternalAuthenticationServiceException {
+    public UserDetailsService userDetailsService(CustomerRepository userRepo) throws InternalAuthenticationServiceException {
         return username -> userRepo.getByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/swagger-ui/#/**");
+        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api/v1/customers/register/**", "/swagger-ui/#/**");
     }
 
     @Bean
@@ -56,7 +54,7 @@ public class SecurityConfiguration {
 
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/h2-console/**", "/api/v1/costumers/register/**", "/login","/swagger-ui/**", "/swagger-ui/#/**")
+                .mvcMatchers("/h2-console/**", "/api/v1/customers/register/**", "/login","/swagger-ui/**", "/swagger-ui/#/**")
                 .permitAll()
 
                 .and()

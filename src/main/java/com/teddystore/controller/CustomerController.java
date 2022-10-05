@@ -1,8 +1,9 @@
 package com.teddystore.controller;
 
-import com.teddystore.model.Costumer;
-import com.teddystore.service.CostumerService;
-import com.teddystore.service.CostumerServiceImp;
+import com.teddystore.model.Customer;
+import com.teddystore.repository.CustomerRepository;
+import com.teddystore.service.CustomerService;
+import com.teddystore.service.CustomerServiceImp;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -35,66 +36,66 @@ import java.util.Optional;
  *      &emsp <font color="#8bacb0"><strong>{@code CREATED}</strong></font>: Retorna 201 Created. <br>
  *      &emsp <font color="#8bacb0"><strong>{@code NO_CONTENT}</strong></font>: Retorna 204 No Content (la operación se realizó con éxito, pero no retorna cuerpo). <br><br>
  * <font color="#85ba6a"><strong>{@code @PreAuthorize}</strong></font>: Verifica que el usuario solicitando la información tenga los privilegios requeridos. <br>
- *      &emsp <font color="#8bacb0"><strong>{@code #costumer.id == #id}</strong></font>: Verifica que el usuario solicitando la información le corresponda a él, evita que usuarios no autorizados accedan a la información de otros. <br><br>
+ *      &emsp <font color="#8bacb0"><strong>{@code #customer.id == #id}</strong></font>: Verifica que el usuario solicitando la información le corresponda a él, evita que usuarios no autorizados accedan a la información de otros. <br><br>
  * <font color="#85ba6a"><strong>{@code @RequestBody}</strong></font>: El método espera que el JSON enviado desde el cliente sea en el formato de este objeto. <br><br>
  * <font color="#85ba6a"><strong>{@code @PathVariable}</strong></font>: Obtiene el dato ingresado en la ruta. <br>
  *      &emsp <font color="#8bacb0"><strong>{@code find-by-id/{id}/ -> find-by-id/1/}</strong></font><br><br>
  * <font color="#85ba6a"><strong>{@code @AuthenticationPrincipal}</strong></font>: Obtiene la información del usario que solicita el método, necesario para la anotación <font color="#85ba6a"><strong>{@code @PreAuthorize}</strong></font>. <br><br>
  * <strong>
  * Ruta de clases: {@link com.teddystore.model.WebAppUser WebAppUser}
- *              -> {@link Costumer}
- *              -> {@link com.teddystore.repository.CostumerRepository  CostumerRepository}
- *              -> {@link CostumerService}
- *              -> {@link CostumerServiceImp}
- *              -> {@link CostumerController}
+ *              -> {@link Customer}
+ *              -> {@link CustomerRepository  CustomerRepository}
+ *              -> {@link CustomerService}
+ *              -> {@link CustomerServiceImp}
+ *              -> {@link CustomerController}
  * </strong>
  * @see <a href="https://livebook.manning.com/book/spring-quickly/chapter-10/">Spring Start Here: 10 Implementing REST services</a>
  * @see <a href="https://livebook.manning.com/book/spring-boot-in-practice/chapter-7/">Spring Boot in Practice: 7 Developing RESTful Web services with Spring Boot</a>
  **/
 @RestController
-@RequestMapping(value = "/api/v1/costumers/") //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS.
-@ApiOperation("Costumer API")
-public class CostumerController {
+@RequestMapping(value = "/api/v1/customers/") //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS.
+@ApiOperation("Customer API")
+public class CustomerController {
 
-    private final CostumerService costumerService;
+    private final CustomerService customerService;
 
-    public CostumerController(CostumerService costumerService) {
-        this.costumerService = costumerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @PostMapping(value = "register/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    @ApiOperation(value = "POST a Costumer", notes = "Registers a Costumer")
+    @ApiOperation(value = "POST a Customer", notes = "Registers a Customer")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Costumer registered"),
-            @ApiResponse(code = 409, message = "Could not create - No Costumer registered")
+            @ApiResponse(code = 201, message = "Customer registered"),
+            @ApiResponse(code = 409, message = "Could not create - No Customer registered")
     })
-    public Costumer registerCostumer(@RequestBody Costumer costumer) {
-        return costumerService.registerCostumer(costumer);
+    public Customer registerCostumer(@RequestBody Customer customer) {
+        return customerService.registerCustomer(customer);
     }
 
     @GetMapping(value = "find-by-id/{id}/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('READ') and #costumer.id == #id or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('READ') and #customer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
-    @ApiOperation(value = "GET a costumer by id", notes = "Returns a costumer as per the id")
+    @ApiOperation(value = "GET a customer by id", notes = "Returns a customer as per the id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - Costumer not found")
+            @ApiResponse(code = 404, message = "Not found - Customer not found")
     })
-    public Optional<Costumer> getCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
-        return costumerService.getCostumerById(id);
+    public Optional<Customer> getCostumerById(@AuthenticationPrincipal @ApiIgnore Customer customer, @PathVariable Long id) {
+        return customerService.getCustomerById(id);
     }
 
     @GetMapping(value = "find-by-username/{username}/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
-    @ApiOperation(value = "GET a costumer by username", notes = "Returns a costumer as per the username")
+    @ApiOperation(value = "GET a customer by username", notes = "Returns a customer as per the username")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - Costumer not found")
+            @ApiResponse(code = 404, message = "Not found - Customer not found")
     })
-    public Optional<Costumer> getByUsername(@PathVariable String username) {
-        return costumerService.getByUsername(username);
+    public Optional<Customer> getByUsername(@PathVariable String username) {
+        return customerService.getByUsername(username);
     }
 
     @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,45 +104,45 @@ public class CostumerController {
     @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
-            @ApiResponse(code = 404, message = "Not found - No costumer found")
+            @ApiResponse(code = 404, message = "Not found - No customer found")
     })
-    public Iterable<Costumer> getAllCostumers() {
-        return costumerService.getCostumers();
+    public Iterable<Customer> getAllCostumers() {
+        return customerService.getCustomers();
     }
 
     @PutMapping(value = "update-details/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('UPDATE') and #costumer.id == #id or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE') and #customer.id == #id or hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.CREATED)
-    @ApiOperation(value = "PUT a Costumer", notes = "Updates Costumer details")
+    @ApiOperation(value = "PUT a Customer", notes = "Updates Customer details")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successfully updated"),
-            @ApiResponse(code = 409, message = "Could not update - No Costumer details updated")
+            @ApiResponse(code = 409, message = "Could not update - No Customer details updated")
     })
-    public Costumer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Costumer costumer, @PathVariable Long id) {
-        return costumerService.updateCostumerDetails(id, costumer);
+    public Customer updateCostumerDetails(@AuthenticationPrincipal @RequestBody Customer customer, @PathVariable Long id) {
+        return customerService.updateCustomerDetails(id, customer);
     }
 
     @DeleteMapping("delete-by-id/{id}/")
-    @PreAuthorize("hasAuthority('DELETE') and #costumer.id == #id or hasAuthority('OWNER')")
+    @PreAuthorize("hasAuthority('DELETE') and #customer.id == #id or hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "DELETE a costumer by id", notes = "Deletes a Costumer as per id")
+    @ApiOperation(value = "DELETE a customer by id", notes = "Deletes a Customer as per id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfully deleted"),
-            @ApiResponse(code = 404, message = "Not found - Costumer not found")
+            @ApiResponse(code = 404, message = "Not found - Customer not found")
     })
-    public void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Costumer costumer, @PathVariable Long id) {
-        costumerService.deleteCostumerById(id);
+    public void deleteCostumerById(@AuthenticationPrincipal @ApiIgnore Customer customer, @PathVariable Long id) {
+        customerService.deleteCustomerById(id);
     }
 
     @DeleteMapping("delete-all/")
     @PreAuthorize("hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "DELETE all costumer", notes = "Deletes all costumers")
+    @ApiOperation(value = "DELETE all customer", notes = "Deletes all costumers")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfully deleted"),
             @ApiResponse(code = 404, message = "Not found - No costumers found")
     })
     public void deleteCostumers() {
-        costumerService.deleteCostumers();
+        customerService.deleteCustomers();
     }
 }
