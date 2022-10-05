@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Alberto Villalpando <br><br>
  * Clase a la que se le harán peticiones desde un cliente a través de peticiones <strong>CRUD <font color="#85ba6a">{@code POST, GET, PUT, DELETE}</font></strong>. <br><br>
  * <font color="#85ba6a"><strong>{@code @RestController}</strong></font>: Transforma la clase para que esta se encargue de exponer la información en una API. <br><br>
- * <font color="#85ba6a"><strong>{@code @RequestMapping}</strong></font>: Ruta base a la que se le harán peticiones a esta clase. <br> Ej: http://localhost:8080<strong>/api/v1/costumers/find-by-id/1/</strong> <br><br>
+ * <font color="#85ba6a"><strong>{@code @RequestMapping}</strong></font>: Ruta base a la que se le harán peticiones a esta clase. <br> Ej: http://localhost:8080<strong>/api/v1/customers/find-by-id/1/</strong> <br><br>
  * <font color="#85ba6a"><strong>{@code @PostMapping}</strong></font>: Método que se enacarga de crear o persistir información en la API. <br>
  *      &emsp <font color="#8bacb0"><strong>{@code value}</strong></font>: Ruta para solicirar el método. <br>
  *      &emsp <font color="#8bacb0"><strong>{@code consumes}</strong></font>: Establece que el método recibe información en formato JSON. <br><br>
@@ -101,12 +101,12 @@ public class CustomerController {
     @GetMapping(value = "find-all/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(value = HttpStatus.FOUND)
-    @ApiOperation(value = "GET all costumers", notes = "Returns all costumers")
+    @ApiOperation(value = "GET all customers", notes = "Returns all customers")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
             @ApiResponse(code = 404, message = "Not found - No customer found")
     })
-    public Iterable<Customer> getAllCostumers() {
+    public Iterable<Customer> getAllCustomers() {
         return customerService.getCustomers();
     }
 
@@ -137,12 +137,12 @@ public class CustomerController {
     @DeleteMapping("delete-all/")
     @PreAuthorize("hasAuthority('OWNER')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "DELETE all customer", notes = "Deletes all costumers")
+    @ApiOperation(value = "DELETE all customer", notes = "Deletes all customers")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Successfully deleted"),
-            @ApiResponse(code = 404, message = "Not found - No costumers found")
+            @ApiResponse(code = 404, message = "Not found - No customers found")
     })
-    public void deleteCostumers() {
+    public void deleteCustomers() {
         customerService.deleteCustomers();
     }
 }
