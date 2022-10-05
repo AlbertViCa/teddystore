@@ -63,5 +63,5 @@ public class Teddy {
 
     @ManyToMany(mappedBy = "teddies")
     @ToString.Exclude
-    List<TeddyOrder> teddyOrder;
+    private List<TeddyOrder> teddyOrder;
 }

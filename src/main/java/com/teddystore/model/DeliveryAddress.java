@@ -21,19 +21,19 @@ public class DeliveryAddress {
 
     @NotNull
     @Column(name = "STREET", nullable = false)
-    String street;
+    private String street;
 
     @NotNull
     @Column(name = "CITY", nullable = false)
-    String city;
+    private String city;
 
     @NotNull
     @Column(name = "STATE", nullable = false)
-    String state;
+    private String state;
 
     @NotNull
     @Column(name = "ZIP_CODE", nullable = false)
-    String zipCode;
+    private String zipCode;
 
     @ManyToOne
     @JoinTable(
@@ -46,5 +46,5 @@ public class DeliveryAddress {
                     nullable = false
             )
     )
-    Costumer costumer;
+    private Costumer costumer;
 }
