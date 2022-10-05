@@ -20,6 +20,6 @@ Actualmente las ventas se realizan mediante pequeños establecimientos en evento
 B2C
 
 ## UML  
-### Costumer Class Diagram
+### Customer Class Diagram
 
-![alt text](https://i.imgur.com/HRDAYJn.png)
+![alt text](https://i.imgur.com/e0OWy7K.png)
