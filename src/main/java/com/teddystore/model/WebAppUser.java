@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.sun.istack.NotNull;
 import com.teddystore.config.security.AuthorityDeserializer;
-import com.teddystore.controller.CostumerController;
-import com.teddystore.service.CostumerService;
+import com.teddystore.controller.CustomerController;
+import com.teddystore.repository.CustomerRepository;
+import com.teddystore.service.CustomerService;
+import com.teddystore.service.CustomerServiceImp;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -25,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 /**
  * @author Alberto Villalpando <br><br>
- * Clase padre de {@link Employee} y {@link Costumer}. <br><br>
+ * Clase padre de {@link Employee} y {@link Customer}. <br><br>
  * <font color="#85ba6a"><strong>{@code @Getter, @Setter, @ToString}</strong></font>: Anotaciones de lombok; automáticamente genera los métodos correspondientes. <br><br>
  * <font color="#85ba6a"><strong>{@code @SuperBuilder}</strong></font>: Anotacion de lombok; implementa el patrón builder, <strong>super</strong> debido a que es una clase abstracta padre. <br><br>
  * <font color="#85ba6a"><strong>{@code @NoArgsConstructor, @AllArgsConstructor}</strong></font>: Anotaciones de lombok; implementa constructores sin parametros y con todos los parametros. <br><br>
@@ -36,11 +38,11 @@ import java.util.List;
  * <font color="#85ba6a"><strong>{@code @Transactional}</strong></font>: Se asegura de que la información se obtenga correctamente, en caso de fallar, los cambios serán revertidos. <br><br>
  * <strong>
  * Ruta de clases: {@link com.teddystore.model.WebAppUser WebAppUser}
- *              -> {@link Costumer}
- *              -> {@link com.teddystore.repository.CostumerRepository  CostumerRepository}
- *              -> {@link CostumerService}
- *              -> {@link com.teddystore.service.CostumerServiceImp CostumerServiceImp}
- *              -> {@link CostumerController}
+ *              -> {@link Customer}
+ *              -> {@link CustomerRepository  CustomerRepository}
+ *              -> {@link CustomerService}
+ *              -> {@link CustomerServiceImp CustomerServiceImp}
+ *              -> {@link CustomerController}
  * </strong>
  * @see <a href="https://projectlombok.org/">Project Lombok</a>
  * @see <a href="https://livebook.manning.com/book/java-persistence-with-hibernate-third-edition/chapter-5/v-13/">Java Persistence with Spring Data and Hibernate: 5 Mapping persistent classes</a>
@@ -60,7 +62,7 @@ import java.util.List;
         property = "type"
 )
 @JsonSubTypes({
-        @Type(value = Costumer.class, name = "costumer"),
+        @Type(value = Customer.class, name = "customer"),
         @Type(value = Employee.class, name = "employee")
 })
 public abstract class WebAppUser implements UserDetails {

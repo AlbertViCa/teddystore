@@ -37,14 +37,14 @@ public class DeliveryAddress {
 
     @ManyToOne
     @JoinTable(
-            name = "COSTUMMER_ADDRESS",
+            name = "CUSTOMER_ADDRESS",
             joinColumns = @JoinColumn(
                     name = "ADDRESS_ID"
             ),
             inverseJoinColumns = @JoinColumn(
-                    name = "COSTUMER_ID",
+                    name = "CUSTOMER_ID",
                     nullable = false
             )
     )
-    private Costumer costumer;
+    private Customer customer;
 }

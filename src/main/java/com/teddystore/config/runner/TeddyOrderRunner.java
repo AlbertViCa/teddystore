@@ -1,10 +1,10 @@
 package com.teddystore.config.runner;
 
-import com.teddystore.exception.CostumerNotFoundException;
+import com.teddystore.exception.CustomerNotFoundException;
 import com.teddystore.exception.TeddyNotFoundException;
 import com.teddystore.model.Teddy;
 import com.teddystore.model.TeddyOrder;
-import com.teddystore.service.CostumerService;
+import com.teddystore.service.CustomerService;
 import com.teddystore.service.TeddyOrderService;
 import com.teddystore.service.TeddyService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,13 @@ public class TeddyOrderRunner implements CommandLineRunner {
 
     private final TeddyOrderService teddyOrderService;
 
-    private final CostumerService costumerService;
+    private final CustomerService customerService;
 
     private final TeddyService teddyService;
 
-    public TeddyOrderRunner(TeddyOrderService teddyOrderService, CostumerService costumerService, TeddyService teddyService) {
+    public TeddyOrderRunner(TeddyOrderService teddyOrderService, CustomerService customerService, TeddyService teddyService) {
         this.teddyOrderService = teddyOrderService;
-        this.costumerService = costumerService;
+        this.customerService = customerService;
         this.teddyService = teddyService;
     }
 
@@ -49,7 +49,7 @@ public class TeddyOrderRunner implements CommandLineRunner {
 
         TeddyOrder teddyOrder = TeddyOrder.builder()
                 .teddies(teddies)
-                .costumer(costumerService.getCostumerById(1L).orElseThrow(() -> new CostumerNotFoundException("")))
+                .customer(customerService.getCustomerById(1L).orElseThrow(() -> new CustomerNotFoundException("")))
                 .totalCost(BigDecimal.valueOf(250.00))
                 .build();
 

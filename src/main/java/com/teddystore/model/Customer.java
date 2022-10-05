@@ -1,8 +1,10 @@
 package com.teddystore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.teddystore.controller.CostumerController;
-import com.teddystore.service.CostumerService;
+import com.teddystore.controller.CustomerController;
+import com.teddystore.repository.CustomerRepository;
+import com.teddystore.service.CustomerService;
+import com.teddystore.service.CustomerServiceImp;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,11 +20,11 @@ import java.util.List;
  * <font color="#85ba6a"><strong>{@code @OneToMany}</strong></font>: Establece la cardinalidad de los objetos. Un cliente puden tener muchas ordenes, pero estas ordenes solo pueden pertenecer a un cliente. <br><br>
  * <strong>
  * Ruta de clases: {@link com.teddystore.model.WebAppUser WebAppUser}
- *              -> {@link Costumer}
- *              -> {@link com.teddystore.repository.CostumerRepository  CostumerRepository}
- *              -> {@link CostumerService}
- *              -> {@link com.teddystore.service.CostumerServiceImp CostumerServiceImp}
- *              -> {@link CostumerController}
+ *              -> {@link Customer}
+ *              -> {@link CustomerRepository  CustomerRepository}
+ *              -> {@link CustomerService}
+ *              -> {@link CustomerServiceImp CustomerServiceImp}
+ *              -> {@link CustomerController}
  * </strong>
  * */
 @Entity
@@ -42,17 +44,17 @@ import java.util.List;
         "credentialsNonExpired",
         "accountNonLocked"
 })
-public class Costumer extends WebAppUser {
+public class Customer extends WebAppUser {
 
     @ToString.Exclude
     @OneToMany(
-            mappedBy = "costumer",
+            mappedBy = "customer",
             cascade = CascadeType.REMOVE
     )
     private List<DeliveryAddress> addressList;
 
     @OneToMany(
-            mappedBy = "costumer",
+            mappedBy = "customer",
             cascade = CascadeType.REMOVE
     )
     @ToString.Exclude

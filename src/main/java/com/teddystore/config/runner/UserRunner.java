@@ -2,9 +2,9 @@ package com.teddystore.config.runner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teddystore.model.Authority;
-import com.teddystore.model.Costumer;
+import com.teddystore.model.Customer;
 import com.teddystore.service.AuthorityService;
-import com.teddystore.service.CostumerService;
+import com.teddystore.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,26 +18,26 @@ import java.util.List;
 @Order(2)
 public class UserRunner implements CommandLineRunner {
 
-    private final CostumerService costumerService;
+    private final CustomerService customerService;
 
     private final AuthorityService authorityService;
 
     @Autowired
-    public UserRunner(CostumerService costumerService, AuthorityService authorityService) {
-        this.costumerService = costumerService;
+    public UserRunner(CustomerService customerService, AuthorityService authorityService) {
+        this.customerService = customerService;
         this.authorityService = authorityService;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        List<Authority> costumerAuthorities = authorityService.findAll();
+        List<Authority> customerAuthorities = authorityService.findAll();
 
-        costumerAuthorities.remove(0);
+        customerAuthorities.remove(0);
 
-        log.info("---------- CREATING COSTUMER ----------");
+        log.info("---------- CREATING CUSTOMER ----------");
 
-        Costumer costumer = Costumer.builder()
+        Customer customer = Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
                 .secondLastName("Cardona")
@@ -48,7 +48,7 @@ public class UserRunner implements CommandLineRunner {
                 .authorities(authorityService.findAll()) //FIXME: ONLY EMPLOYEES CAN HAVE ADMIN AUTHORITY, IMPLEMENTED ONLY FOR TESTING PURPOSES.
                 .build();
 
-        Costumer costumer2 = Costumer.builder()
+        Customer customer2 = Customer.builder()
                 .firstName("Andrea")
                 .lastName("Barragán")
                 .secondLastName("González")
@@ -56,10 +56,10 @@ public class UserRunner implements CommandLineRunner {
                 .password("123")
                 .phoneNumber("492 931 9832")
                 .email("andrea@gmail.com")
-                .authorities(costumerAuthorities)
+                .authorities(customerAuthorities)
                 .build();
 
-        Costumer costumer3 = Costumer.builder()
+        Customer customer3 = Customer.builder()
                 .firstName("María Esmeralda")
                 .lastName("Pacheco")
                 .secondLastName("González")
@@ -67,19 +67,19 @@ public class UserRunner implements CommandLineRunner {
                 .password("123")
                 .phoneNumber("492 935 9832")
                 .email("esmeralda@gmail.com")
-                .authorities(costumerAuthorities)
+                .authorities(customerAuthorities)
                 .build();
 
         ObjectMapper mapper = new ObjectMapper();
 
-        log.info("---------- REGISTERING COSTUMER ---------- \n{}, \n{}, \n{}",
-                mapper.writeValueAsString(costumer),
-                mapper.writeValueAsString(costumer2),
-                mapper.writeValueAsString(costumer3));
+        log.info("---------- REGISTERING CUSTOMER ---------- \n{}, \n{}, \n{}",
+                mapper.writeValueAsString(customer),
+                mapper.writeValueAsString(customer2),
+                mapper.writeValueAsString(customer3));
 
-        costumerService.registerCostumer(costumer);
-        costumerService.registerCostumer(costumer2);
-        costumerService.registerCostumer(costumer3);
+        customerService.registerCustomer(customer);
+        customerService.registerCustomer(customer2);
+        customerService.registerCustomer(customer3);
 
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(value = {
-        "costumer",
+        "customer",
         "creditCardNumber",
         "creditCardExpirationDate",
         "creditCardCVV"
@@ -53,10 +53,10 @@ public class TeddyOrder {
     @Column(name = "TOTAL_COST", nullable = false)
     private BigDecimal totalCost;
 
-    @ManyToOne(targetEntity = Costumer.class)
-    @JoinColumn(name = "COSTUMER_ID")
+    @ManyToOne(targetEntity = Customer.class)
+    @JoinColumn(name = "CUSTOMER_ID")
     @ToString.Exclude
-    private Costumer costumer;
+    private Customer customer;
 
     @ManyToMany(targetEntity = Teddy.class)
     @ToString.Exclude
