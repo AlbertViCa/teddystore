@@ -22,4 +22,4 @@ B2C
 ## UML  
 ### Costumer Class Diagram
 
-![alt text](https://i.imgur.com/SVDSlRA.png)
+![alt text](https://i.imgur.com/HRDAYJn.png)
