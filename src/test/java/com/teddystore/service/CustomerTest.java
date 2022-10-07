@@ -52,7 +52,7 @@ public class CustomerTest {
     }
 
     /**
-     * <strong><font color="green">Happy Path</font></strong>
+     * <strong><font color="green" size=6>Happy Path</font></strong>
      * */
 
     @Test
@@ -231,7 +231,7 @@ public class CustomerTest {
     }
 
     /**
-     * <strong><font color="red">Unhappy Path</font></strong>
+     * <strong><font color="red" size=6>Unhappy Path</font></strong>
      * */
 
     @Test
@@ -304,7 +304,7 @@ public class CustomerTest {
                 .getResponse();
     }
 
-    private Customer createCostumer() {
+    private Customer createCustomer() {
         return  Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
