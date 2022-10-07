@@ -75,7 +75,7 @@ public abstract class WebAppUser implements UserDetails {
 
     @NotNull
     @Column(name = "FIRST_NAME", nullable = false)
-    @ApiModelProperty(notes = "User full name", example = "Alberto", required = true)
+    @ApiModelProperty(notes = "User first name", example = "Alberto", required = true)
     protected String firstName;
 
     @NotNull
