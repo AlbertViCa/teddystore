@@ -61,8 +61,9 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Iterable<Customer> getCustomers() {
-        return customerRepository.findAll();
+    public Optional<Iterable<Customer>> getCustomers() {
+        return Optional.ofNullable(Optional.of(customerRepository.findAll())
+                .orElseThrow(() -> new CustomerNotFoundException("No customers found")));
     }
 
     @Override

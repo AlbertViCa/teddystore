@@ -106,7 +106,7 @@ public class CustomerController {
             @ApiResponse(code = 200, message = "Successfully retrieved"),
             @ApiResponse(code = 404, message = "Not found - No customer found")
     })
-    public Iterable<Customer> getAllCustomers() {
+    public Optional<Iterable<Customer>> getAllCustomers() {
         return customerService.getCustomers();
     }
 

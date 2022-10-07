@@ -25,7 +25,7 @@ public interface CustomerService {
 
     Optional<Customer> getByUsername(String username);
 
-    Iterable<Customer> getCustomers();
+    Optional<Iterable<Customer>> getCustomers();
 
     Customer updateCustomerDetails(Long id, Customer customer);
 
