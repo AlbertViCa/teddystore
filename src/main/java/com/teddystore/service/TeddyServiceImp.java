@@ -57,11 +57,7 @@ public class TeddyServiceImp implements TeddyService {
 
     @Override
     public void deleteTeddyById(Long id) {
-        if(teddyRepository.existsById(id)) {
-            teddyRepository.deleteById(id);
-        } else {
-            throw new TeddyNotFoundException(String.format("No teddy with id %s found", id));
-        }
+        if(teddyExists(id)) teddyRepository.deleteById(id);
     }
 
     @Override
@@ -69,4 +65,11 @@ public class TeddyServiceImp implements TeddyService {
         teddyRepository.deleteAll();
     }
 
+    private boolean teddyExists(Long id) {
+        if(teddyRepository.existsById(id)) {
+            return true;
+        } else {
+            throw new TeddyNotFoundException(String.format("No teddy with id %s found", id));
+        }
+    }
 }
