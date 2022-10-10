@@ -78,11 +78,19 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
+        if(customerExists(id)) customerRepository.deleteById(id);
     }
 
     @Override
     public void deleteCustomers() {
         customerRepository.deleteAll();
+    }
+
+    private boolean customerExists(Long id) {
+        if(customerRepository.existsById(id)) {
+            return true;
+        }else {
+            throw new CustomerNotFoundException(String.format("No customer with id %s found", id));
+        }
     }
 }
