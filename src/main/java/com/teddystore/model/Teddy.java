@@ -64,4 +64,12 @@ public class Teddy {
     @ManyToMany(mappedBy = "teddies")
     @ToString.Exclude
     private List<TeddyOrder> teddyOrder;
+
+    public void updateTeddyDetails(Teddy newTeddyDetails) {
+        this.setName(newTeddyDetails.getName());
+        this.setDetails(newTeddyDetails.getDetails());
+        this.setSize(newTeddyDetails.getSize());
+        this.setPrice(newTeddyDetails.getPrice());
+        this.setImageURL(newTeddyDetails.getImageURL());
+    }
 }

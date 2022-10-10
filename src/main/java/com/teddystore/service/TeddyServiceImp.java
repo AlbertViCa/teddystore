@@ -42,15 +42,11 @@ public class TeddyServiceImp implements TeddyService {
     }
 
     @Override
-    public Teddy updateTeddyDetails(Long id, Teddy teddy) {
+    public Teddy updateTeddyDetails(Long id, Teddy newTeddyDetails) {
         Teddy existingTeddy = teddyRepository.findById(id)
                 .orElseThrow(() -> new TeddyNotFoundException(String.format("No teddy with id %s found", id)));
 
-        existingTeddy.setName(teddy.getName());
-        existingTeddy.setDetails(teddy.getDetails());
-        existingTeddy.setSize(teddy.getSize());
-        existingTeddy.setPrice(teddy.getPrice());
-        existingTeddy.setImageURL(teddy.getImageURL());
+        existingTeddy.updateTeddyDetails(newTeddyDetails);
 
         return teddyRepository.save(existingTeddy);
     }
