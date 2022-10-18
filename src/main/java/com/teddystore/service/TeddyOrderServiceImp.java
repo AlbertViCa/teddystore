@@ -6,7 +6,6 @@ import com.teddystore.repository.TeddyOrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +19,8 @@ public class TeddyOrderServiceImp implements TeddyOrderService{
     }
 
     @Override
-    public void createOrder(TeddyOrder teddyOrder) {
-        teddyOrderRepository.save(teddyOrder);
+    public TeddyOrder createOrder(TeddyOrder teddyOrder) {
+        return teddyOrderRepository.save(teddyOrder);
     }
 
     @Override
@@ -31,13 +30,14 @@ public class TeddyOrderServiceImp implements TeddyOrderService{
     }
 
     @Override
-    public Optional<List<TeddyOrder>> getAllOrders() {
-        return Optional.empty();
+    public Optional<Iterable<TeddyOrder>> getAllOrders() {
+        return Optional.ofNullable(Optional.of(teddyOrderRepository.findAll())
+                .orElseThrow(() -> new OrderNotFoundException("No orders found")));
     }
 
     @Override
-    public void updateOrderDetails(Long id, TeddyOrder teddyOrder) {
-
+    public TeddyOrder updateOrderDetails(Long id, TeddyOrder teddyOrder) {
+        return null;
     }
 
     @Override
