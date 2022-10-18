@@ -1,20 +1,18 @@
 package com.teddystore.service;
 
 import com.teddystore.model.TeddyOrder;
-import com.teddystore.repository.TeddyOrderRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface TeddyOrderService {
 
-    void createOrder(TeddyOrder teddyOrder);
+    TeddyOrder createOrder(TeddyOrder teddyOrder);
 
     Optional<TeddyOrder> getOrderById(Long id);
 
-    Optional<List<TeddyOrder>> getAllOrders();
+    Optional<Iterable<TeddyOrder>> getAllOrders();
 
-    void updateOrderDetails(Long id, TeddyOrder teddyOrder);
+    TeddyOrder updateOrderDetails(Long id, TeddyOrder teddyOrder);
 
     void deleteOrderById(Long id);
 }
