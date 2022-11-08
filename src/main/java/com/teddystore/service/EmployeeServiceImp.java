@@ -3,6 +3,7 @@ package com.teddystore.service;
 import com.teddystore.model.Authority;
 import com.teddystore.model.Employee;
 import com.teddystore.repository.EmployeeRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +16,17 @@ public class EmployeeServiceImp implements EmployeeService{
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImp(EmployeeRepository employeeRepository) {
+    private final PasswordEncoder encoder;
+
+    public EmployeeServiceImp(EmployeeRepository employeeRepository, PasswordEncoder encoder) {
         this.employeeRepository = employeeRepository;
+        this.encoder = encoder;
     }
 
     @Override
     public void registerEmployee(Employee employee) {
-
+        employee.setPassword(encoder.encode(employee.getPassword()));
+        employeeRepository.save(employee);
     }
 
     @Override
