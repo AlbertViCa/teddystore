@@ -42,7 +42,10 @@ import java.util.List;
         "enabled",
         "accountNonExpired",
         "credentialsNonExpired",
-        "accountNonLocked"
+        "accountNonLocked",
+        "createdAt",
+        "lastUpdatedAt",
+        "version"
 })
 public class Customer extends WebAppUser {
 

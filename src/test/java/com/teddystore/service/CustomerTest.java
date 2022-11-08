@@ -76,7 +76,7 @@ public class CustomerTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(customer)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(12)))
+                .andExpect(jsonPath("$.*", hasSize(9)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.firstName").value("Alberto"))
                 .andExpect(jsonPath("$.lastName").value("Villalpando"))
@@ -100,7 +100,7 @@ public class CustomerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(11)))
+                .andExpect(jsonPath("$.*", hasSize(8)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.firstName").value("Alberto"))
                 .andExpect(jsonPath("$.lastName").value("Villalpando"))
@@ -121,7 +121,7 @@ public class CustomerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(11)))
+                .andExpect(jsonPath("$.*", hasSize(8)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.firstName").value("Alberto"))
                 .andExpect(jsonPath("$.lastName").value("Villalpando"))
@@ -139,7 +139,7 @@ public class CustomerTest {
     @DisplayName("GET ALL Customers and then FOUND (302)")
     public void getAllCustomersAndThenFound() throws Exception {
         mockMvc.perform(get(BASE_PATH + "find-all/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(4)))
@@ -269,7 +269,7 @@ public class CustomerTest {
     @DisplayName("GET Customer by USERNAME and then FORBIDDEN (403)")
     public void getCustomerByUsernameAndThenNotAuthorized() throws Exception {
         mockMvc.perform(get(BASE_PATH + "find-by-username/" + FIND_USERNAME + "/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("READ"))) //FIXME: NEEDS TO WORK WITH READ.
+                        .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(status().isForbidden())
