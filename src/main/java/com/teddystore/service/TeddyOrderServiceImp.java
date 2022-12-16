@@ -30,6 +30,12 @@ public class TeddyOrderServiceImp implements TeddyOrderService{
     }
 
     @Override
+    public Optional<TeddyOrder> findTeddyOrderByIdAndCustomerId(Long id, Long customerId) {
+        return Optional.ofNullable(teddyOrderRepository.findTeddyOrderByIdAndCustomerId(id, customerId)
+                .orElseThrow(() -> new OrderNotFoundException(String.format("No order with id %s found", id))));
+    }
+
+    @Override
     public Optional<Iterable<TeddyOrder>> getAllOrders() {
         return Optional.ofNullable(Optional.of(teddyOrderRepository.findAll())
                 .orElseThrow(() -> new OrderNotFoundException("No orders found")));
