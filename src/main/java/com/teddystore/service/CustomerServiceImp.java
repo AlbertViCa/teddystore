@@ -3,6 +3,7 @@ package com.teddystore.service;
 import com.teddystore.controller.CustomerController;
 import com.teddystore.exception.CustomerNotFoundException;
 import com.teddystore.model.Customer;
+import com.teddystore.model.WebAppUser;
 import com.teddystore.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,9 +44,9 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Customer registerCustomer(Customer customer) {
+    public <T extends WebAppUser> Customer registerCustomer(T customer) {
         customer.setPassword(encoder.encode(customer.getPassword()));
-        return customerRepository.save(customer);
+        return customerRepository.save((Customer) customer);
     }
 
     @Override

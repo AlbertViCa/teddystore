@@ -2,6 +2,7 @@ package com.teddystore.service;
 
 import com.teddystore.model.Authority;
 import com.teddystore.model.Employee;
+import com.teddystore.model.WebAppUser;
 import com.teddystore.repository.EmployeeRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class EmployeeServiceImp implements EmployeeService{
     }
 
     @Override
-    public void registerEmployee(Employee employee) {
+    public <T extends WebAppUser> Employee registerEmployee(T employee) {
         employee.setPassword(encoder.encode(employee.getPassword()));
-        employeeRepository.save(employee);
+        return employeeRepository.save((Employee) employee);
     }
 
     @Override

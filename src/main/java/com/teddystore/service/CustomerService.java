@@ -2,6 +2,7 @@ package com.teddystore.service;
 
 import com.teddystore.controller.CustomerController;
 import com.teddystore.model.Customer;
+import com.teddystore.model.WebAppUser;
 import com.teddystore.repository.CustomerRepository;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ import java.util.Optional;
  * */
 public interface CustomerService {
 
-    Customer registerCustomer(Customer customer);
+    <T extends WebAppUser> Customer registerCustomer(T customer);
 
     Optional<Customer> getCustomerById(Long id);
 

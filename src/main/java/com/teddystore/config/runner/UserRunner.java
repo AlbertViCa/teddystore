@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teddystore.model.Authority;
 import com.teddystore.model.Customer;
 import com.teddystore.model.Employee;
+import com.teddystore.model.WebAppUser;
 import com.teddystore.service.AuthorityService;
 import com.teddystore.service.CustomerService;
 import com.teddystore.service.EmployeeService;
@@ -42,8 +43,8 @@ public class UserRunner implements CommandLineRunner {
 
         log.info("---------- CREATING USERS ----------");
 
-        Employee employee = Employee.builder()
-                .firstName("Miguel Ángel")
+        WebAppUser employee = Employee.builder()
+                .firstName("Miguel Angel")
                 .lastName("Fernandez")
                 .secondLastName("Alvarez")
                 .username("Miguel")
@@ -53,7 +54,7 @@ public class UserRunner implements CommandLineRunner {
                 .authorities(authorityService.findAll())
                 .build();
 
-        Customer customer = Customer.builder()
+        WebAppUser customer = Customer.builder()
                 .firstName("Alberto")
                 .lastName("Villalpando")
                 .secondLastName("Cardona")
@@ -64,7 +65,7 @@ public class UserRunner implements CommandLineRunner {
                 .authorities(authorityService.findAll())
                 .build();
 
-        Customer customer2 = Customer.builder()
+        WebAppUser customer2 = Customer.builder()
                 .firstName("Andrea")
                 .lastName("Barragán")
                 .secondLastName("González")
@@ -75,7 +76,7 @@ public class UserRunner implements CommandLineRunner {
                 .authorities(customerAuthorities)
                 .build();
 
-        Customer customer3 = Customer.builder()
+        WebAppUser customer3 = Customer.builder()
                 .firstName("María Esmeralda")
                 .lastName("Pacheco")
                 .secondLastName("González")
@@ -98,6 +99,5 @@ public class UserRunner implements CommandLineRunner {
         customerService.registerCustomer(customer);
         customerService.registerCustomer(customer2);
         customerService.registerCustomer(customer3);
-
     }
 }

@@ -2,13 +2,14 @@ package com.teddystore.service;
 
 import com.teddystore.model.Authority;
 import com.teddystore.model.Employee;
+import com.teddystore.model.WebAppUser;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
 
-    void registerEmployee(Employee employee);
+    <T extends WebAppUser> Employee registerEmployee(T employee);
 
     Optional<Employee> getEmployeeBYId(Long id);
 
