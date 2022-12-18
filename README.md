@@ -17,9 +17,52 @@ Pequeña empresa local realiza venta de trabajos artísticos diversos, tales com
 Actualmente las ventas se realizan mediante pequeños establecimientos en eventos locales y mediante plataformas de redes sociales. No cuenta con herramientas a la medida para la gestión del negocio, por lo que la plataforma será construida desde cero. 
 
 **Modelos de Negocio que se Aplican en Este Proyecto**  
-B2C
+D2C
+
+---
 
 ## UML  
 ### Customer Class Diagram
 
 ![alt text](https://i.imgur.com/e0OWy7K.png)
+
+### Sequence Diagram
+
+![alt text](https://i.imgur.com/jBW2G5Y.png)
+
+### Simple Use Case Diagram
+
+![alt text](https://i.imgur.com/4PuUtpW.png)
+
+---
+
+## DATABASE STRUCTURE (WIP)
+
+![alt text](https://i.imgur.com/IeX7SML.jpg)
+
+---
+## Mockups
+
+### Login
+
+![alt text](https://i.imgur.com/8mGq0wD.png)
+
+### Home
+
+![alt text](https://i.imgur.com/VvbpucE.png)
+
+### Catalogue
+
+![alt text](https://i.imgur.com/eWGOFRK.png)
+
+### About Us
+
+![alt text](https://i.imgur.com/0WHd0rQ.png)
+
+### Product Registration
+
+![alt text](https://i.imgur.com/HDKpubp.png)
+
+### Contact
+
+![alt text](https://i.imgur.com/r3Dd6Ox.png)
