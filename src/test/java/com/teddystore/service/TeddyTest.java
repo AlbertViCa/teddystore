@@ -55,11 +55,11 @@ public class TeddyTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         MockHttpServletResponse response = mockMvc.perform(post("/api/v1/teddies/create/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:write")))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(teddy)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.*", hasSize(9)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Teddy"))
                 .andExpect(jsonPath("$.details").value("Teddy details"))
@@ -76,10 +76,10 @@ public class TeddyTest {
     @WithAnonymousUser
     public void teddyFound() throws Exception {
         mockMvc.perform(get("/api/v1/teddies/find-by-id/1/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(6)))
+                .andExpect(jsonPath("$.*", hasSize(9)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Bard"))
                 .andExpect(status().isFound()).andReturn().getResponse();
@@ -89,7 +89,7 @@ public class TeddyTest {
     @WithAnonymousUser
     public void teddyNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/teddies/find-by-id/99/")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_costumer:read")))
+                        .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(0)))

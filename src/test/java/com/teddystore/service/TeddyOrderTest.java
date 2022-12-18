@@ -56,6 +56,7 @@ public class TeddyOrderTest {
         this.mockMvc = mockMvc;
     }
 
+    //TODO: WHEN RUNNING TEST THROUGH MAVEN LIFECYCLE customerService FAILS.
     @Test
     @Order(1)
     @WithAnonymousUser
