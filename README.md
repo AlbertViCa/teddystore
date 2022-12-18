@@ -21,6 +21,12 @@ D2C
 
 ---
 
+[SRS Document](https://docs.google.com/document/d/1m3FjfNQxYz9UBwNRvRPvYnatetm5K4mtRTQpwsNE29E/edit?usp=sharing)
+
+[System Design Document](https://docs.google.com/document/d/1-u2ArDlcHz27wvYgEvYX-VUrgZV4K38a14dZhbpb4Ws/edit?usp=sharing) 
+
+---
+
 ## UML  
 ### Customer Class Diagram
 
