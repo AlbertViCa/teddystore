@@ -2,6 +2,7 @@ package com.teddystore.config.runner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teddystore.model.Authority;
+import com.teddystore.model.Authority;
 import com.teddystore.model.Customer;
 import com.teddystore.model.Employee;
 import com.teddystore.model.WebAppUser;
