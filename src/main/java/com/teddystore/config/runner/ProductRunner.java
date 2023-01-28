@@ -33,6 +33,7 @@ public class ProductRunner implements CommandLineRunner {
                 .size(15.00)
                 .price(BigDecimal.valueOf(300.00))
                 .imageURL("image.com")
+                .category(Product.Category.TEDDY)
                 .build();
 
         log.info("---------- SAVING TEDDY ----------");

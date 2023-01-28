@@ -50,6 +50,7 @@ public class ProductTest {
                 .size(15.00)
                 .price(BigDecimal.valueOf(350.00))
                 .imageURL("image.com")
+                .category(Product.Category.TEDDY)
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -59,7 +60,7 @@ public class ProductTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(product)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(10)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Teddy"))
                 .andExpect(jsonPath("$.details").value("Teddy details"))
@@ -79,7 +80,7 @@ public class ProductTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(10)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Bard"))
                 .andExpect(status().isFound()).andReturn().getResponse();

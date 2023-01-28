@@ -49,6 +49,11 @@ public final class Product {
     @Column(name = "IMAGE_URL")
     private String imageURL;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "CATEGORY")
+    private Category category;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -64,6 +69,12 @@ public final class Product {
     @ManyToMany(mappedBy = "products")
     @ToString.Exclude
     private List<ProductOrder> productOrder;
+
+    public enum Category{
+        TEDDY,
+        PAINT,
+        FIGURE,
+    }
 
     public void updateTeddyDetails(Product newProductDetails) {
         this.setName(newProductDetails.getName());
