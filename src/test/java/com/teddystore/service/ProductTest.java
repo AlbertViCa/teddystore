@@ -2,7 +2,7 @@ package com.teddystore.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import com.teddystore.model.Teddy;
+import com.teddystore.model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +29,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
-public class TeddyTest {
+public class ProductTest {
 
-    private final TeddyService teddyService;
+    private final ProductService productService;
 
     private final MockMvc mockMvc;
 
     @Autowired
-    public TeddyTest(TeddyService teddyService, MockMvc mockMvc) {
-        this.teddyService = teddyService;
+    public ProductTest(ProductService productService, MockMvc mockMvc) {
+        this.productService = productService;
         this.mockMvc = mockMvc;
     }
 
     @Test
     @WithAnonymousUser
-    public void postTeddy() throws Exception {
-        Teddy teddy = Teddy.builder()
+    public void postProduct() throws Exception {
+        Product product = Product.builder()
                 .name("Teddy")
                 .details("Teddy details")
                 .size(15.00)
                 .price(BigDecimal.valueOf(350.00))
                 .imageURL("image.com")
+                .category(Product.Category.TEDDY)
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -57,9 +58,9 @@ public class TeddyTest {
         MockHttpServletResponse response = mockMvc.perform(post("/api/v1/teddies/create/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(teddy)))
+                        .content(objectMapper.writeValueAsString(product)))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(10)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Teddy"))
                 .andExpect(jsonPath("$.details").value("Teddy details"))
@@ -69,17 +70,17 @@ public class TeddyTest {
                 .andExpect(status().isCreated()).andReturn().getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
-        assertNotNull(teddyService.getById(id));
+        assertNotNull(productService.getProductById(id));
     }
 
     @Test
     @WithAnonymousUser
-    public void teddyFound() throws Exception {
+    public void productFound() throws Exception {
         mockMvc.perform(get("/api/v1/teddies/find-by-id/1/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))
                 .andDo(print())
-                .andExpect(jsonPath("$.*", hasSize(9)))
+                .andExpect(jsonPath("$.*", hasSize(10)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
                 .andExpect(jsonPath("$.name").value("Bard"))
                 .andExpect(status().isFound()).andReturn().getResponse();
@@ -87,7 +88,7 @@ public class TeddyTest {
 
     @Test
     @WithAnonymousUser
-    public void teddyNotFound() throws Exception {
+    public void productNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/teddies/find-by-id/99/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("READ")))
                         .contentType("application/json"))

@@ -1,13 +1,13 @@
 package com.teddystore.repository;
 
-import com.teddystore.model.Teddy;
+import com.teddystore.model.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface TeddyRepository extends CrudRepository<Teddy, Long> {
+public interface ProductRepository extends CrudRepository<Product, Long> {
 
-    Optional<Teddy> findByName(String name);
+    Optional<Product> findByName(String name);
 }

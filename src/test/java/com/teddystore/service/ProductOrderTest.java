@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jayway.jsonpath.JsonPath;
 import com.teddystore.model.Customer;
-import com.teddystore.model.Teddy;
-import com.teddystore.model.TeddyOrder;
+import com.teddystore.model.Product;
+import com.teddystore.model.ProductOrder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -36,11 +36,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class TeddyOrderTest {
+public class ProductOrderTest {
 
-    private final TeddyOrderService teddyOrderService;
+    private final ProductOrderService productOrderService;
 
-    private final TeddyService teddyService;
+    private final ProductService productService;
 
     private final CustomerService customerService;
 
@@ -49,9 +49,9 @@ public class TeddyOrderTest {
     private static final String BASE_PATH = "/api/v1/orders/";
 
     @Autowired
-    public TeddyOrderTest(TeddyOrderService teddyOrderService, TeddyService teddyService, CustomerService customerService, MockMvc mockMvc) {
-        this.teddyOrderService = teddyOrderService;
-        this.teddyService = teddyService;
+    public ProductOrderTest(ProductOrderService productOrderService, ProductService productService, CustomerService customerService, MockMvc mockMvc) {
+        this.productOrderService = productOrderService;
+        this.productService = productService;
         this.customerService = customerService;
         this.mockMvc = mockMvc;
     }
@@ -64,11 +64,11 @@ public class TeddyOrderTest {
         Customer customer = customerService.getCustomerById(1L).orElse(null);
         assert customer != null;
 
-        Teddy teddy = teddyService.getById(1L).orElse(null);
-        assert teddy != null;
+        Product product = productService.getProductById(1L).orElse(null);
+        assert product != null;
 
-        TeddyOrder teddyOrder = TeddyOrder.builder()
-                .teddies(List.of(teddy))
+        ProductOrder productOrder = ProductOrder.builder()
+                .products(List.of(product))
                 .customer(customer)
                 .totalCost(BigDecimal.valueOf(250.00))
                 .build();
@@ -79,7 +79,7 @@ public class TeddyOrderTest {
         MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH + "create/")
                         .with(jwt().authorities(new SimpleGrantedAuthority("WRITE")))
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(teddyOrder)))
+                        .content(objectMapper.writeValueAsString(productOrder)))
                 .andDo(print())
                 .andExpect(jsonPath("$.*", hasSize(8)))
                 .andExpect(jsonPath("$.id", greaterThan(0)))
@@ -88,6 +88,6 @@ public class TeddyOrderTest {
                 .getResponse();
 
         Long id = Long.valueOf(JsonPath.parse(response.getContentAsString()).read("$.id").toString());
-        assertNotNull(teddyOrderService.getOrderById(id));
+        assertNotNull(productOrderService.getOrderById(id));
     }
 }
