@@ -35,7 +35,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {
-        //"password", //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS.
+        //"password", //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS. DTO COULD BE A SOLUTION.
         "teddyOrder",
         "addressList",
         "authorities",
@@ -47,7 +47,7 @@ import java.util.List;
         "lastUpdatedAt",
         "version"
 })
-public class Customer extends WebAppUser {
+public final class Customer extends WebAppUser {
 
     @ToString.Exclude
     @OneToMany(

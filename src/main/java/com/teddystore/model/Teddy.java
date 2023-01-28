@@ -22,7 +22,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {
         "teddyOrder"
 })
-public class Teddy {
+public final class Teddy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

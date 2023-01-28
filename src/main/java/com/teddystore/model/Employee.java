@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee extends WebAppUser {
+public final class Employee extends WebAppUser {
 
     @Column(name = "SALARY")
     private BigDecimal salary;
