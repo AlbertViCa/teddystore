@@ -20,9 +20,9 @@ import java.util.List;
 @Builder
 @Entity
 @JsonIgnoreProperties(value = {
-        "teddyOrder"
+        "productOrder"
 })
-public final class Teddy {
+public final class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,15 +61,15 @@ public final class Teddy {
     @Column(name = "VERSION")
     private Long version;
 
-    @ManyToMany(mappedBy = "teddies")
+    @ManyToMany(mappedBy = "products")
     @ToString.Exclude
-    private List<TeddyOrder> teddyOrder;
+    private List<ProductOrder> productOrder;
 
-    public void updateTeddyDetails(Teddy newTeddyDetails) {
-        this.setName(newTeddyDetails.getName());
-        this.setDetails(newTeddyDetails.getDetails());
-        this.setSize(newTeddyDetails.getSize());
-        this.setPrice(newTeddyDetails.getPrice());
-        this.setImageURL(newTeddyDetails.getImageURL());
+    public void updateTeddyDetails(Product newProductDetails) {
+        this.setName(newProductDetails.getName());
+        this.setDetails(newProductDetails.getDetails());
+        this.setSize(newProductDetails.getSize());
+        this.setPrice(newProductDetails.getPrice());
+        this.setImageURL(newProductDetails.getImageURL());
     }
 }

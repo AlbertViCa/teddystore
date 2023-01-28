@@ -1,7 +1,7 @@
 package com.teddystore.config.runner;
 
-import com.teddystore.model.Teddy;
-import com.teddystore.service.TeddyService;
+import com.teddystore.model.Product;
+import com.teddystore.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,13 +13,13 @@ import java.math.BigDecimal;
 @Slf4j
 @Component
 @Order(3)
-public class TeddyRunner implements CommandLineRunner {
+public class ProductRunner implements CommandLineRunner {
 
-    private final TeddyService teddyService;
+    private final ProductService productService;
 
     @Autowired
-    public TeddyRunner(TeddyService teddyService) {
-        this.teddyService = teddyService;
+    public ProductRunner(ProductService productService) {
+        this.productService = productService;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class TeddyRunner implements CommandLineRunner {
 
         log.info("---------- CREATING TEDDY ----------");
 
-        Teddy teddy = Teddy.builder()
+        Product product = Product.builder()
                 .name("Bard")
                 .details("Snow Fest Bard")
                 .size(15.00)
@@ -37,6 +37,6 @@ public class TeddyRunner implements CommandLineRunner {
 
         log.info("---------- SAVING TEDDY ----------");
 
-        teddyService.saveTeddy(teddy);
+        productService.saveProduct(product);
     }
 }

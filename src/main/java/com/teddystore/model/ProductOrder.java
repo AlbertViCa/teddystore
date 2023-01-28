@@ -24,8 +24,8 @@ import java.util.List;
         "creditCardCVV"
 })
 @Embeddable
-@Table(name = "TEDDY_ORDER")
-public class TeddyOrder {
+@Table(name = "PRODUCT_ORDER")
+public class ProductOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,8 +58,8 @@ public class TeddyOrder {
     @ToString.Exclude
     private Customer customer;
 
-    @ManyToMany(targetEntity = Teddy.class)
+    @ManyToMany(targetEntity = Product.class)
     @ToString.Exclude
-    @JoinColumn(name = "TEDDY_ID")
-    private List<Teddy> teddies;
+    @JoinColumn(name = "PRODUCT_ID")
+    private List<Product> products;
 }

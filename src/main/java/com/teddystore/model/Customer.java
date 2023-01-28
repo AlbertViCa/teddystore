@@ -36,7 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties(value = {
         //"password", //TODO: IMPLEMENT CUSTOM FILTER, SO GET METHODS DON'T RETURN PASSWORDS AND FIX TEST AFTERWARDS. DTO COULD BE A SOLUTION.
-        "teddyOrder",
+        "productOrder",
         "addressList",
         "authorities",
         "enabled",
@@ -61,5 +61,5 @@ public final class Customer extends WebAppUser {
             cascade = CascadeType.REMOVE
     )
     @ToString.Exclude
-    private List<TeddyOrder> teddyOrder;
+    private List<ProductOrder> productOrder;
 }

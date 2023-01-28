@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TeddyStoreApplication {
+public class LilithStoreApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TeddyStoreApplication.class, args);
+        SpringApplication.run(LilithStoreApplication.class, args);
     }
 
 }
